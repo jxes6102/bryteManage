@@ -4,18 +4,19 @@ import {useCounterStore} from '../stores/counter'
 const store = useCounterStore()
 
 
-console.log(store.count)
+// console.log(store.count)
 
-store.increment(3)
+// store.increment(3)
 
-console.log(store.count)
+// console.log(store.count)
 
-console.log(store.doubleCount)
+// console.log(store.doubleCount)
 
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <!-- <TheWelcome /> -->
+    home
+  </div>
 </template>
