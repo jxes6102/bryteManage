@@ -8,8 +8,8 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  base: "/bryteManage/",
   resolve: {
-    base: "/bryteManage/",
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
