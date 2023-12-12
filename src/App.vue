@@ -1,23 +1,44 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div> -->
-    <RouterView />
+  <div class="relative w-full h-[100vh] min-h-[100vh] overflow-y-auto overflow-x-hidden">
+    <headerView></headerView>
+    <transition 
+      enter-active-class="animate__animated animate__slideInLeft"
+      leave-active-class="animate__animated animate__slideOutLeft"
+      >
+      <menuView v-if="menuStatus"></menuView>
+    </transition>
+    <RouterView class="transition-all" :class="(!isMobile && menuStatus) ? ' ml-[300px]' : ''" />
   </div>
 </template>
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import { onMounted,computed } from 'vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import headerView from './components/headerView.vue'
+import menuView from './components/menuView.vue'
+import { useMobileStore,useMenuStore } from './stores/index'
+
+const mobileStore = useMobileStore()
+const menuStore = useMenuStore()
+const menuStatus = computed(() => {
+  return menuStore.status
+})
+const isMobile = computed(() => {
+  return mobileStore.isMobile
+})
+const setWidth = () => {
+  mobileStore.setMobile(window.innerWidth)
+}
+
+onMounted(() => {
+  setWidth()
+  window.addEventListener('resize', () => {
+    setWidth()
+  }, false);
+})
+
+</script>
 
 <style scoped>
 /*

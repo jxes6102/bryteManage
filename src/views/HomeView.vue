@@ -1,7 +1,18 @@
+<template>
+  <div class="w-full ">
+    <!-- <TheWelcome /> -->
+    <div class="text-3xl font-bold underline">
+      
+      test
+    </div>
+  </div>
+  
+</template>
+
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import {useCounterStore} from '../stores/counter'
-const store = useCounterStore()
+//import TheWelcome from '../components/TheWelcome.vue'
+// import {useCounterStore} from '../stores/counter'
+// const store = useCounterStore()
 
 
 // console.log(store.count)
@@ -13,10 +24,3 @@ const store = useCounterStore()
 // console.log(store.doubleCount)
 
 </script>
-
-<template>
-  <div class="text-3xl font-bold underline">
-    <!-- <TheWelcome /> -->
-    test
-  </div>
-</template>
