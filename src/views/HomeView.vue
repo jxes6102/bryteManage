@@ -15,8 +15,8 @@ const store = useCounterStore()
 </script>
 
 <template>
-  <div>
+  <div class="text-3xl font-bold underline">
     <!-- <TheWelcome /> -->
-    home
+    test
   </div>
 </template>
