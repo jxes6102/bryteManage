@@ -1,0 +1,1 @@
+import{r as e,o as t,c as o}from"./index-2a5qwUpK.js";const s={class:"about"},_={__name:"AboutView",setup(a){return e(null),e(null),e(["#99A9BF","#F7BA2A","#FF9900"]),(c,r)=>(t(),o("div",s))}};export{_ as default};
