@@ -13,7 +13,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { onMounted,computed } from 'vue'
+import { onMounted,computed,watch } from 'vue'
 // import HelloWorld from './components/HelloWorld.vue'
 import headerView from './components/headerView.vue'
 import menuView from './components/menuView.vue'
@@ -33,9 +33,20 @@ const setWidth = () => {
 
 onMounted(() => {
   setWidth()
+  if(window.innerWidth>768){
+    menuStore.openMenu()
+  }
   window.addEventListener('resize', () => {
     setWidth()
   }, false);
+})
+
+watch(isMobile, (newVal,oldVal) => {
+  if((newVal == true) && (oldVal == false)){
+    menuStore.closeMenu()
+  }
+  // console.log('oldVal',oldVal)
+  // console.log('newVal',newVal)
 })
 
 </script>

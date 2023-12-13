@@ -7,9 +7,10 @@
             class="absolute left-[10px] md:left-[20px] top-[calc(50%_-_15px)] md:top-[calc(50%_-_20px)]">
             <el-icon :size="isMobile ? '30' : '40'" color="#ffffff" ><Menu /></el-icon>
         </div>
-        <div 
-          class="relative w-[auto] h-[8vh] text-white text-xl md:text-3xl flex flex-wrap justify-center items-center font-extrabold"
-          >{{ headerTitle }}
+        <div
+            @click="toHome"
+            class="relative w-[auto] h-[8vh] text-white text-xl md:text-3xl flex flex-wrap justify-center items-center font-extrabold"
+            >{{ headerTitle }}
         </div>
         <div 
             class="absolute right-[10px] md:right-[20px] top-[calc(50%_-_0.5rem)] md:top-[calc(50%_-_0.5rem)] text-white text-sm md:text-base">
@@ -39,6 +40,10 @@ const changeMenu = () => {
 }
 
 const headerTitle = ref('E管理')
+
+const toHome = () => {
+    router.push({path:'/'})
+}
 
 </script>
 

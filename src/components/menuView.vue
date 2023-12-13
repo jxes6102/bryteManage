@@ -3,7 +3,9 @@
         <template v-for="(item,index) in urlData" :key="index">
             <div class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">{{item.name}}</div>
             <template v-for="(thing,key) in item.children" :key="key">
-                <div class="w-4/5 text-2xl font-medium mt-1 flex flex-wrap justify-center items-center">
+                <div
+                    @click="toLink(thing?.url)" 
+                    class="w-4/5 text-2xl font-medium mt-1 flex flex-wrap justify-center items-center">
                     <el-icon>
                         <component :is="thing.icon"></component>
                     </el-icon>
@@ -16,7 +18,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from "vue-router";
+import { useMenuStore } from '@/stores/index'
 import 'animate.css'
+
+const router = useRouter()
+const menuStore = useMenuStore()
 
 const urlData = ref([
     {
@@ -24,7 +31,8 @@ const urlData = ref([
         children:[
             {
                 name:'基本參數',
-                icon:'Document'
+                icon:'Document',
+                url:'/parameterView'
             },
             {
                 name:'權限管理',
@@ -57,6 +65,15 @@ const urlData = ref([
         name:'豋出',
     },
 ]) 
+
+const toLink = (url) => {
+    //console.log('url',url)
+    if(url){
+        router.push({path:url})
+        menuStore.closeMenu()
+    }
+    
+}
 
 
 </script>
