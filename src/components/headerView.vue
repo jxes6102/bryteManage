@@ -11,6 +11,10 @@
           class="relative w-[auto] h-[8vh] text-white text-xl md:text-3xl flex flex-wrap justify-center items-center font-extrabold"
           >{{ headerTitle }}
         </div>
+        <div 
+            class="absolute right-[10px] md:right-[20px] top-[calc(50%_-_0.5rem)] md:top-[calc(50%_-_0.5rem)] text-white text-sm md:text-base">
+            會員名稱
+        </div>
     </div>
 </template>
 

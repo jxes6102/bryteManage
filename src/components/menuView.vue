@@ -1,9 +1,9 @@
 <template>
     <div class="fixed top-[8vh] left-0 w-[100vw] md:w-[300px] h-[92vh] bg-neutral-100 flex flex-col justify-start items-center">
         <template v-for="(item,index) in urlData" :key="index">
-            <div class="w-4/5 text-2xl font-semibold mt-4 flex flex-wrap justify-center items-center">{{item.name}}</div>
+            <div class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">{{item.name}}</div>
             <template v-for="(thing,key) in item.children" :key="key">
-                <div class="w-4/5 text-2xl font-semibold mt-1 flex flex-wrap justify-center items-center">
+                <div class="w-4/5 text-2xl font-medium mt-1 flex flex-wrap justify-center items-center">
                     <el-icon>
                         <component :is="thing.icon"></component>
                     </el-icon>
@@ -52,7 +52,10 @@ const urlData = ref([
                 icon:'Phone'
             },
         ]
-    }
+    },
+    {
+        name:'豋出',
+    },
 ]) 
 
 
