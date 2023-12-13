@@ -43,6 +43,9 @@ const headerTitle = ref('E管理')
 
 const toHome = () => {
     router.push({path:'/'})
+    if(mobileStore.isMobile){
+        menuStore.closeMenu()
+    }
 }
 
 </script>

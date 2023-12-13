@@ -19,11 +19,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
-import { useMenuStore } from '@/stores/index'
+import { useMenuStore,useMobileStore } from '@/stores/index'
 import 'animate.css'
 
 const router = useRouter()
 const menuStore = useMenuStore()
+const mobileStore = useMobileStore()
 
 const urlData = ref([
     {
@@ -70,7 +71,9 @@ const toLink = (url) => {
     //console.log('url',url)
     if(url){
         router.push({path:url})
-        menuStore.closeMenu()
+        if(mobileStore.isMobile){
+            menuStore.closeMenu()
+        }
     }
     
 }
