@@ -1,7 +1,11 @@
 <template>
-    <div class="fixed top-[8vh] left-0 w-[100vw] md:w-[300px] h-[92vh] bg-[#F8F9FA] flex flex-col justify-start items-center z-50">
+    <div class="fixed top-[8vh] left-0 w-[100vw] md:w-[200px] h-[92vh] bg-[#F8F9FA] flex flex-col justify-start items-center z-50">
         <template v-for="(item,index) in urlData" :key="index">
-            <div class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">{{item.name}}</div>
+            <div 
+                @click="toLink(item?.url)"
+                class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">
+                {{item.name}}
+            </div>
             <template v-for="(thing,key) in item.children" :key="key">
                 <div
                     @click="toLink(thing?.url)" 
@@ -64,12 +68,15 @@ const urlData = ref([
         ]
     },
     {
+        name:'接送畫面',
+        url:'/announcementView'
+    },
+    {
         name:'豋出',
     },
 ]) 
 
 const toLink = (url) => {
-    //console.log('url',url)
     if(url){
         router.push({path:url})
         if(mobileStore.isMobile){

@@ -1,6 +1,11 @@
 <template>
   <div class="relative w-full h-[100vh] min-h-[100vh] overflow-y-auto overflow-x-hidden">
-    <headerView></headerView>
+    <transition 
+      enter-active-class="animate__animated animate__slideInDown"
+      leave-active-class="animate__animated animate__slideOutUp"
+      >
+      <headerView v-if="headerStatus"></headerView>
+    </transition>
     <transition 
       enter-active-class="animate__animated animate__slideInLeft"
       leave-active-class="animate__animated animate__slideOutLeft"
@@ -8,7 +13,7 @@
       <menuView v-if="menuStatus"></menuView>
     </transition>
     <RouterView
-      :class="(!isMobile && menuStatus) ? 'ml-[300px] w-[calc(100%_-_300px)]' : 'w-[100%]'"
+      :class="(!isMobile && menuStatus) ? 'ml-[200px] w-[calc(100%_-_200px)]' : 'w-[100%]'"
       class="transition-all duration-1000"  />
   </div>
 </template>
@@ -19,10 +24,15 @@ import { onMounted,computed,watch } from 'vue'
 // import HelloWorld from './components/HelloWorld.vue'
 import headerView from './components/headerView.vue'
 import menuView from './components/menuView.vue'
-import { useMobileStore,useMenuStore } from './stores/index'
+import { useMobileStore,useMenuStore,useheaderStore } from './stores/index'
 
 const mobileStore = useMobileStore()
 const menuStore = useMenuStore()
+const headerStore = useheaderStore()
+
+const headerStatus = computed(() => {
+  return headerStore.status
+})
 const menuStatus = computed(() => {
   return menuStore.status
 })

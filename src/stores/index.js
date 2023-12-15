@@ -26,3 +26,17 @@ export const useMenuStore = defineStore('menu', () => {
     }
     return { status,setMenu,closeMenu,openMenu }
 })
+
+export const useheaderStore = defineStore('header', () => {
+    const status = ref(true)
+    const setHeader = () => {
+        status.value = !status.value 
+    }
+    const closeHeader = () => {
+        status.value = false
+    }
+    const openHeader = () => {
+        status.value = true
+    }
+    return { status,setHeader,closeHeader,openHeader }
+})

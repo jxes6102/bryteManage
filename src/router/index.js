@@ -2,6 +2,7 @@ import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import parameterView from '../views/parameter/index.vue'
 import permissionView from '../views/permission/index.vue'
+import announcementView from '../views/announcement/index.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/permissionView',
       name: 'permissionView',
       component: permissionView
+    },
+    {
+      path: '/announcementView',
+      name: 'announcementView',
+      component: announcementView
     },
     // {
     //   path: '/about',
