@@ -7,7 +7,9 @@
       >
       <menuView v-if="menuStatus"></menuView>
     </transition>
-    <RouterView class="transition-all duration-1000" :class="(!isMobile && menuStatus) ? ' ml-[300px]' : ''" />
+    <RouterView
+      :class="(!isMobile && menuStatus) ? 'ml-[300px] w-[calc(100%_-_300px)]' : 'w-[100%]'"
+      class="transition-all duration-1000"  />
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-[8vh] left-0 w-[100vw] md:w-[300px] h-[92vh] bg-neutral-100 flex flex-col justify-start items-center">
+    <div class="fixed top-[8vh] left-0 w-[100vw] md:w-[300px] h-[92vh] bg-[#F8F9FA] flex flex-col justify-start items-center z-50">
         <template v-for="(item,index) in urlData" :key="index">
             <div class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">{{item.name}}</div>
             <template v-for="(thing,key) in item.children" :key="key">
@@ -37,7 +37,8 @@ const urlData = ref([
             },
             {
                 name:'權限管理',
-                icon:'Avatar'
+                icon:'Avatar',
+                url:'/permissionView'
             },
         ]
     },

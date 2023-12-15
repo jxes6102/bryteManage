@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import parameterView from '../views/parameter/index.vue'
+import permissionView from '../views/permission/index.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/parameterView',
       name: 'parameterView',
       component: parameterView
+    },
+    {
+      path: '/permissionView',
+      name: 'permissionView',
+      component: permissionView
     },
     // {
     //   path: '/about',

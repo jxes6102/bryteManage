@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="w-full h-auto flex flex-col justify-center items-center"
+        class="h-auto flex flex-col justify-center items-center"
     >
         <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
             參數設定
