@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-auto flex flex-col justify-center items-center">
+  <div class="flex flex-col justify-start items-center">
     <!-- <TheWelcome /> -->
     <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
       儀錶板

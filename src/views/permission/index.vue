@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="h-auto flex flex-col justify-center items-center"
+        class="flex flex-col justify-center items-center"
     >
         <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
             權限管理

@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-full h-[100vh] min-h-[100vh] overflow-y-auto overflow-x-hidden">
-    <transition 
+    <transition mode="in-out"
       enter-active-class="animate__animated animate__slideInDown"
       leave-active-class="animate__animated animate__slideOutUp"
       >
@@ -14,7 +14,7 @@
     </transition>
     <RouterView
       :class="(!isMobile && menuStatus) ? 'ml-[200px] w-[calc(100%_-_200px)]' : 'w-[100%]'"
-      class="transition-all duration-1000"  />
+      class="transition-all duration-1000" />
   </div>
 </template>
 
