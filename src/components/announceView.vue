@@ -1,5 +1,5 @@
 <template>
-    <div class="animate__animated animate__fadeIn absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center">
+    <div v-if="!isMobile" class="animate__animated animate__fadeIn absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center">
         <div
             @click="tohome"
             class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center">
@@ -23,6 +23,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="absolute w-[100vw] h-[100vh] top-0 left-0 bg-white flex flex-col justify-center items-center" v-else>
+        <div class="text-2xl">此畫面無法用手機開啟</div>
+        <div
+            @click="tohome"
+            class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center">
+            <el-icon size="50"><Close /></el-icon>
         </div>
     </div>
 </template>
@@ -526,6 +534,9 @@ const showList = computed(() => {
         target[index].crowd = target[index].crowd.slice(0,maxCount.value*2)
     }
   return target
+})
+const isMobile = computed(() => {
+  return mobileStore.isMobile
 })
 const init = () => {
     headerStore.closeHeader()

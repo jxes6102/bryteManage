@@ -60,6 +60,12 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     setWidth()
   }, false);
+
+  if(localStorage.getItem('announce') == 'true'){
+    announceStore.openAnnounce()
+  }else{
+    announceStore.closeAnnounce()
+  }
 })
 
 watch(isMobile, (newVal,oldVal) => {

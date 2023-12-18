@@ -45,12 +45,15 @@ export const useAnnounceStore = defineStore('announce', () => {
     const status = ref(false)
     const setAnnounce = () => {
         status.value = !status.value 
+        localStorage.getItem('announce',status.value)
     }
     const closeAnnounce = () => {
         status.value = false
+        localStorage.setItem('announce',false)
     }
     const openAnnounce = () => {
         status.value = true
+        localStorage.setItem('announce',true)
     }
     return { status,setAnnounce,closeAnnounce,openAnnounce }
 })
