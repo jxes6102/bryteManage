@@ -1,5 +1,5 @@
 <template>
-    <div class="animate__animated animate__fadeIn only-of-type:relative flex flex-col justify-center items-center">
+    <div class="animate__animated animate__fadeIn absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center">
         <div
             @click="tohome"
             class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center">
@@ -11,7 +11,6 @@
                 class="w-[25%] h-[100vh] bg-[#F0F8FF] border-2 border-[#F2FFFF] flex flex-col justify-start items-center">
                 <div class="w-full my-4 text-4xl font-bold flex flex-wrap justify-center items-center"> {{ showList[index]?.class }} </div>
                 <div class="w-full flex flex-wrap justify-center items-center">
-
                     <div
                         v-for="(thing,key) in showList[index]?.crowd" :key="key"
                         :class="(showList[index]?.crowd.length <= maxCount) ? 
@@ -31,16 +30,18 @@
 <script setup>
 import { ref,computed,onBeforeUnmount,onMounted } from 'vue'
 import { useRouter } from "vue-router";
-import { useMenuStore,useMobileStore,useheaderStore } from '@/stores/index'
+import { useMenuStore,useMobileStore,useheaderStore,useAnnounceStore } from '@/stores/index'
 import 'animate.css'
 
 const router = useRouter()
 const menuStore = useMenuStore()
 const mobileStore = useMobileStore()
 const headerStore = useheaderStore()
+const announceStore = useAnnounceStore()
 
 onMounted(() => {
-
+    headerStore.closeHeader()
+    menuStore.closeMenu()
 })
 
 onBeforeUnmount(() => {
@@ -539,7 +540,6 @@ const init = () => {
         }else{
             showIndex.value++
         }
-
         //console.log('showList',showList.value)
 
     }), 5000);
@@ -548,7 +548,7 @@ const init = () => {
 init()
 
 const tohome = () => {
-    router.push({path:'/'})
+    announceStore.closeAnnounce()
 }
 
 // //延遲設定
@@ -559,7 +559,6 @@ const tohome = () => {
 //         }, 2000);
 //     });
 // }
-
 
 </script>
 

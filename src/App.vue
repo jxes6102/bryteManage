@@ -15,6 +15,8 @@
     <RouterView
       :class="(!isMobile && menuStatus) ? 'ml-[200px] w-[calc(100%_-_200px)]' : 'w-[100%]'"
       class="transition-all duration-1000" />
+
+    <announceView v-if="announceStatus"></announceView>
   </div>
 </template>
 
@@ -24,12 +26,17 @@ import { onMounted,computed,watch } from 'vue'
 // import HelloWorld from './components/HelloWorld.vue'
 import headerView from './components/headerView.vue'
 import menuView from './components/menuView.vue'
-import { useMobileStore,useMenuStore,useheaderStore } from './stores/index'
+import announceView from './components/announceView.vue'
+import { useMobileStore,useMenuStore,useheaderStore,useAnnounceStore } from './stores/index'
 
 const mobileStore = useMobileStore()
 const menuStore = useMenuStore()
 const headerStore = useheaderStore()
+const announceStore = useAnnounceStore()
 
+const announceStatus = computed(() => {
+  return announceStore.status
+})
 const headerStatus = computed(() => {
   return headerStore.status
 })
@@ -46,7 +53,9 @@ const setWidth = () => {
 onMounted(() => {
   setWidth()
   if(window.innerWidth>768){
-    menuStore.openMenu()
+    if(!announceStatus.value){
+      menuStore.openMenu()
+    }
   }
   window.addEventListener('resize', () => {
     setWidth()

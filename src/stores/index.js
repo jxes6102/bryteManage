@@ -14,7 +14,7 @@ export const useMobileStore = defineStore('mobile', () => {
 })
 
 export const useMenuStore = defineStore('menu', () => {
-    const status = ref(false)
+    const status = ref(true)
     const setMenu = () => {
         status.value = !status.value 
     }
@@ -39,4 +39,18 @@ export const useheaderStore = defineStore('header', () => {
         status.value = true
     }
     return { status,setHeader,closeHeader,openHeader }
+})
+
+export const useAnnounceStore = defineStore('announce', () => {
+    const status = ref(false)
+    const setAnnounce = () => {
+        status.value = !status.value 
+    }
+    const closeAnnounce = () => {
+        status.value = false
+    }
+    const openAnnounce = () => {
+        status.value = true
+    }
+    return { status,setAnnounce,closeAnnounce,openAnnounce }
 })
