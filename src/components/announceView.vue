@@ -1,26 +1,32 @@
 <template>
-    <div v-if="!isMobile" class="animate__animated animate__fadeIn absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center">
+    <div v-if="!isMobile" class="absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center">
         <div
             @click="tohome"
             class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center">
             <el-icon size="50"><Close /></el-icon>
         </div>
-        <div class="w-full flex flex-wrap justify-center items-center overflow-hidden">
+        <div class="w-full h-[100vh] flex flex-wrap justify-center items-center overflow-hidden">
             <div 
                 v-for="(item,index) in 4" :key="index"
                 class="w-[25%] h-[100vh] bg-[#F0F8FF] border-2 border-[#F2FFFF] flex flex-col justify-start items-center">
                 <div class="w-full my-4 text-4xl font-bold flex flex-wrap justify-center items-center"> {{ showList[index]?.class }} </div>
                 <div class="w-full flex flex-wrap justify-center items-center">
+                <transition-group 
+                    name="fade"
+                    enter-active-class="animate__animated animate__fadeIn"
+                    leave-active-class="animate__animated animate__fadeOut"
+                >
                     <div
                         v-for="(thing,key) in showList[index]?.crowd" :key="key"
                         :class="(showList[index]?.crowd.length <= maxCount) ? 
                             'w-[95%] text-xl' : 'w-[45%] text-lg mx-1'"
-                        class="h-[auto] rounded-lg bg-slate-50 my-1 p-1 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] flex flex-wrap justify-center items-center">
+                        class=" h-[auto] rounded-lg bg-slate-50 my-1 p-1 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] flex flex-wrap justify-center items-center">
                         <div class="w-auto mx-1 font-semibold">{{thing.number + '號'}}</div>
                         <div class="w-auto mx-1 font-semibold">{{thing.name}}</div>
                         <div v-if="thing.isArrive" class="w-full mx-1 text-center font-semibold">{{ thing.time + '分抵達'}}</div>
                         <div v-else class="w-full mx-1 text-[#28FF28] text-center font-semibold">已抵達</div>
                     </div>
+                </transition-group>
                 </div>
             </div>
         </div>
@@ -50,6 +56,15 @@ const announceStore = useAnnounceStore()
 onMounted(() => {
     headerStore.closeHeader()
     menuStore.closeMenu()
+
+    // setTimeout(() => {
+    //     list.value[1].crowd.push({
+    //         number:8,
+    //         name:'老鼠十號',
+    //         time:'14',
+    //         isArrive:false,
+    //     })
+    // }, 2000);
 })
 
 onBeforeUnmount(() => {
@@ -574,5 +589,13 @@ const tohome = () => {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, 
+.fade-leave-active {
+  transition: opacity 1s;
+}
 
+.fade-enter, 
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
