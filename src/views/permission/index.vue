@@ -2,58 +2,70 @@
     <div 
         class="flex flex-col justify-center items-center"
     >
-        <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
-            權限管理
-        </div>
-        <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-        <div class="w-full my-3 p-4 border-2 rounded">
-            <el-form
-                label-width="60"
-                :inline="true" 
-                :model="formInline" 
-                class="demo-form-inline">
-                <el-form-item label="集團">
-                    <el-input
-                        v-model="formInline.user" 
-                        placeholder="Approved by" 
-                        clearable />
+        <div class="w-[95%] md:w-full p-1 md:p-2">
+            <el-form :model="form" label-width="120px">
+                <el-form-item label="Activity name">
+                    <el-input v-model="form.name" />
                 </el-form-item>
-                <el-form-item label="機構">
-                    <el-select
-                        class="w-[200px]"
-                        v-model="formInline.region"
-                        placeholder="Activity zone"
-                        clearable
-                    >
-                        <el-option label="Zone one" value="shanghai" />
-                        <el-option label="Zone two" value="beijing" />
-                    </el-select>
+                <el-form-item label="Activity zone">
+                    <el-col :span="24">
+                        <el-select
+                            :style="isMobile ? 'width: 100%;font-size: 14px;' : ''"
+                            v-model="form.region" 
+                            placeholder="please select">
+                            <el-option label="Zone one" value="shanghai" />
+                            <el-option label="Zone two" value="beijing" />
+                        </el-select>
+                    </el-col>
                 </el-form-item>
-                <el-form-item label="關鍵字">
-                    <el-input
-                        v-model="formInline.keyWord" 
-                        placehozlder="Approved by" 
-                        clearable />
+                <el-form-item label="Activity time">
+                    <el-col :span="11">
+                        <el-date-picker
+                        popper-class="custom-date-picker"
+                        v-model="form.date1"
+                        type="date"
+                        placeholder="Pick a date"
+                        style="width: 100%"
+                        />
+                    </el-col>
+                    <el-col :span="2" class="text-center">
+                        <span class="text-gray-500">-</span>
+                    </el-col>
+                    <el-col :span="11">
+                        <el-time-picker
+                        v-model="form.date2"
+                        placeholder="Pick a time"
+                        style="width: 100%"
+                        />
+                    </el-col>
                 </el-form-item>
-                <el-form-item class="w-full flex flex-wrap justify-end items-center">
-                    <!-- <el-icon @click="onSubmit"><Search /></el-icon> -->
-                    <el-button icon="Search" />
+                <el-form-item label="Instant delivery">
+                    <el-switch v-model="form.delivery" />
+                </el-form-item>
+                <el-form-item label="Activity type">
+                    <el-checkbox-group v-model="form.type">
+                        <el-checkbox label="Online activities" name="type" />
+                        <el-checkbox label="Promotion activities" name="type" />
+                        <el-checkbox label="Offline activities" name="type" />
+                        <el-checkbox label="Simple brand exposure" name="type" />
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="Resources">
+                    <el-radio-group v-model="form.resource">
+                        <el-radio label="Sponsor" />
+                        <el-radio label="Venue" />
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="Activity form">
+                    <el-input v-model="form.desc" type="textarea" />
+                </el-form-item>
+                <el-form-item class="custom-el-form-item" label-width="auto">
+                    <el-button type="primary" @click="onSubmit">Create</el-button>
+                    <el-button>Cancel</el-button> 
                 </el-form-item>
             </el-form>
+    
         </div>
-        <!-- <div class="w-full my-3 p-4 border-2 rounded flex flex-wrap justify-start items-center">
-            <div class="w-1/2 flex flex-wrap justify-start items-center">
-                <div class="px-1">集團</div>
-                <div>
-                    <el-input
-                        v-model="formInline.user" 
-                        placeholder="Approved by" 
-                        clearable />
-                </div>
-                <div></div>
-            </div>
-            <div class="w-1/2">zxc</div>
-        </div> -->
     </div>
 </template>
 
@@ -72,11 +84,15 @@ const isMobile = computed(() => {
   return mobileStore.isMobile
 })
 
-const formInline = ref({
-  user: '',
+const form = ref({
+  name: '',
   region: '',
-  date: '',
-  keyWord:''
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
 })
 
 const onSubmit = () => {
@@ -93,4 +109,17 @@ const onSubmit = () => {
 :deep(.el-form-item__label) {
     font-size: 16px;
 }
+
+@media screen and (max-width: 330px) {
+    :deep(.custom-el-form-item .el-form-item__content) {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    :deep(.el-form-item__label) {
+        width: 80px !important;
+    }
+}
+
 </style>

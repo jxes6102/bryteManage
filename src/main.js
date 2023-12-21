@@ -1,9 +1,9 @@
-import './assets/main.css'
-import './assets/css/index.scss'
-import './assets/css/tailwind.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import './assets/css/none.css'
+import './assets/main.css'
+import './assets/css/tailwind.css'
+import './assets/css/index.scss'
 import App from './App.vue'
 import router from './router'
 import ElementPlus from 'element-plus'
