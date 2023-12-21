@@ -2,7 +2,7 @@
     <div v-if="!isMobile" class="absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center z-[9999]">
         <div
             @click="tohome"
-            class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center">
+            class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center cursor-pointer">
             <el-icon size="50"><Close /></el-icon>
         </div>
         <div class="w-full h-[100vh] flex flex-wrap justify-center items-center overflow-hidden">

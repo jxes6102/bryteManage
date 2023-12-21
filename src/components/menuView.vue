@@ -3,13 +3,14 @@
         <template v-for="(item,index) in urlData" :key="index">
             <div 
                 @click="toLink(item?.url)"
-                class="w-4/5 text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">
+                :class="item?.url ? 'cursor-pointer' : ''"
+                class="w-full text-2xl font-medium mt-4 flex flex-wrap justify-center items-center">
                 {{item.name}}
             </div>
             <template v-for="(thing,key) in item.children" :key="key">
                 <div
                     @click="toLink(thing?.url)" 
-                    class="w-4/5 text-2xl font-medium mt-1 flex flex-wrap justify-center items-center">
+                    class="w-full text-2xl font-medium mt-1 flex flex-wrap justify-center items-center cursor-pointer">
                     <el-icon>
                         <component :is="thing.icon"></component>
                     </el-icon>
