@@ -16,3 +16,7 @@
 .mine-title-style {
     @apply text-[30px] md:text-[42px] tracking-[-0.5px] font-black leading-[46px]
 }
+
+.border-style-1 {
+    @apply border-2 border-solid border-gray-200
+}
