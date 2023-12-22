@@ -186,19 +186,6 @@
                 <template v-slot:message>
                     <div class="w-[100%] md:w-[95%] h-auto flex flex-wrap justify-center items-center overflow-y-auto">
                         <el-table :show-header="false" :data="authority" stripe style="width: 100%">
-                            <!-- <el-table-column prop="date" label="集團名稱">
-                                <template #default="scope">
-                                    <el-tooltip
-                                        :disabled="!isMobile"
-                                        class="box-item"
-                                        effect="light"
-                                        :content="scope.row.text"
-                                        placement="top-start"
-                                    >
-                                        <div class="truncate">{{ scope.row.text }}</div>
-                                    </el-tooltip>
-                                </template>
-                            </el-table-column> -->
                             <el-table-column prop="date" label="集團名稱">
                                 <template #default="scope">
                                     <el-checkbox v-model="scope.row.status" :label="scope.row.text" size="large" />
