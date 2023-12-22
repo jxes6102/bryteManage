@@ -61,6 +61,8 @@ onMounted(() => {
     if(!announceStatus.value){
       menuStore.openMenu()
     }
+  }else{
+    menuStore.closeMenu()
   }
   window.addEventListener('resize', () => {
     setWidth()

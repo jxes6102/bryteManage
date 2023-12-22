@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="absolute w-[100vw] h-[100vh] top-0 left-0 bg-white flex flex-col justify-center items-center" v-else>
+    <div class="absolute w-[100vw] h-[100vh] top-0 left-0 bg-white flex flex-col justify-center items-center z-[9999]" v-else>
         <div class="text-2xl">此畫面無法用手機開啟</div>
         <div
             @click="tohome"

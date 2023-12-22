@@ -2,7 +2,7 @@
     <div class="transition-all sticky w-full top-0 left-0 z-10 flex flex-wrap justify-around items-center bg-[#212529]">
         <div 
             @click="changeMenu"
-            class="absolute left-[10px] md:left-[20px] top-[calc(50%_-_15px)] md:top-[calc(50%_-_20px)]">
+            class="absolute left-[10px] md:left-[20px] top-[calc(50%_-_15px)] md:top-[calc(50%_-_20px)] cursor-pointer">
             <el-icon :size="isMobile ? '30' : '40'" color="#ffffff" ><Menu /></el-icon>
         </div>
         <div
