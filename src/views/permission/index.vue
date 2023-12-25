@@ -1,12 +1,12 @@
 <template>
     <div 
-        class="w-full h-[100vh] flex flex-col justify-start items-center"
+        class="w-full h-[100vh] flex flex-col justify-start items-start"
     >
         <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
             權限管理
         </div>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-        <div class="w-[95%] my-2 p-1 md:p-2 rounded-md ">
+        <div class="w-full md:w-[80%] my-2 p-1 md:p-2 rounded-md ">
             <el-form :inline="!isMobile" :model="form" label-width="60px">
                 <el-form-item label="集團">
                     <el-col :span="24">
@@ -39,7 +39,7 @@
                 </el-form-item>
                 <el-form-item label="關鍵字">
                     <el-col :span="24">
-                        <el-input v-model="form.desc" />
+                        <el-input placeholder="群組名稱" v-model="form.desc" />
                     </el-col>
                 </el-form-item>
                 <el-form-item>
@@ -53,7 +53,7 @@
         <div class="w-full my-1 md:my-3 px-3 text-xl font-semibold flex flex-wrap justify-start items-center">
             群組名稱
         </div>
-        <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
+        <div class="w-full md:w-[80%] h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
             <el-table :show-header="false" :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="date">
                     <template #default="scope">
@@ -62,7 +62,7 @@
                 </el-table-column>
             </el-table>
         </div>
-        <div class="w-[100%] h-auto flex flex-wrap justify-center items-center">
+        <div class="w-full md:w-[80%] h-auto flex flex-wrap justify-center items-center">
             <el-pagination
                 small
                 background

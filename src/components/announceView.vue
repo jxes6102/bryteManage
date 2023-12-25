@@ -44,7 +44,7 @@
                             <div class="w-full flex flex-wrap justify-center items-center">
                                 <div class="w-auto text-center font-semibold">抵達情況:</div>
                                 <div v-if="thing.isArrive" class="w-auto text-[#DC143C] text-center font-semibold">{{ thing.time + '分抵達'}}</div>
-                                <div v-else class="w-auto text-[#28FF28] text-center font-semibold">已抵達</div>
+                                <div v-else class="w-auto text-[#79FF79] text-center font-semibold">已抵達</div>
                             </div>
                         </div>
                     </transition-group>
