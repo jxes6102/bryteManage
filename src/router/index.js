@@ -2,6 +2,7 @@ import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import parameterView from '../views/parameter/index.vue'
 import permissionView from '../views/permission/index.vue'
+import newsView from '../views/news/index.vue'
 import errorView from '../views/errorView.vue'
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/permissionView',
       name: 'permissionView',
       component: permissionView
+    },
+    { 
+      path: '/newsView',
+      name: 'newsView',
+      component: newsView 
     },
     { 
       path: '/:pathMatch(.*)*',

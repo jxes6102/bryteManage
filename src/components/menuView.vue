@@ -57,7 +57,8 @@ const urlData = ref([
             },
             {
                 name:'公告管理',
-                icon:'Service'
+                icon:'Service',
+                url:'/newsView'
             },
             {
                 name:'積分管理',
