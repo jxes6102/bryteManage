@@ -9,7 +9,7 @@
         :class="{ 
             'left-[calc(50%_-_135px)] top-[calc(50%_-_225px)] md:left-[calc(50%_-_200px)] md:top-[calc(50%_-_300px)] w-[270px] h-[450px] md:w-[400px] md:h-[600px] ' : type == 'default',
             'left-[calc(50%_-_45vw)] top-[calc(50%_-_225px)] md:left-[calc(50%_-_350px)] md:top-[calc(50%_-_300px)] w-[90vw] h-[450px] md:w-[700px] md:h-[600px] ' : type == 'large',
-            'left-[calc(50%_-_100px)] top-[calc(50%_-_75px)] md:left-[calc(50%_-_200px)] md:top-[calc(50%_-_100px)] w-[200px] h-[150px] md:w-[400px] md:h-[200px] ' : type == 'small'
+            'left-[calc(50%_-_135px)] top-[calc(50%_-_180px)] md:left-[calc(50%_-_250px)] md:top-[calc(50%_-_200px)] w-[270px] h-[360px] md:w-[500px] md:h-[400px] ' : type == 'small'
         }"
         class="animate__animated animate__bounceIn fixed rounded-lg bg-white z-[1000] flex flex-col justify-start items-center "
     >

@@ -62,7 +62,8 @@ const urlData = ref([
             },
             {
                 name:'積分管理',
-                icon:'Coin'
+                icon:'Coin',
+                url:'/pointView'
             },
             {
                 name:'推播通知',

@@ -3,7 +3,7 @@
         class="w-full h-[100vh] flex flex-col justify-start items-start"
     >
         <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
-            公告管理
+            積分管理
         </div>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
         <div class="w-full md:w-[80%] my-2 p-1 md:p-2 rounded-md ">
@@ -39,7 +39,7 @@
                 </el-form-item>
                 <el-form-item label="關鍵字">
                     <el-col :span="24">
-                        <el-input placeholder="公告標題" v-model="form.desc" />
+                        <el-input placeholder="使用者號或信箱" v-model="form.desc" />
                     </el-col>
                 </el-form-item>
                 <el-form-item>
@@ -52,32 +52,26 @@
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
         <div class="w-full md:w-[80%] h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
             <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="img" label="預覽圖片" width="80"> 
+                <el-table-column prop="name" label="使用者姓名" > 
                     <template #default="scope">
-                        <div @click="editNew(scope)" class="truncate">{{ scope.row.img }}</div>
+                        <div @click="editPoint(scope)" class="truncate">{{ scope.row.name }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="type" label="公告分類" > 
+                <el-table-column prop="income" label="收入" > 
                     <template #default="scope">
-                        <div @click="editNew(scope)" class="truncate">{{ scope.row.type }}</div>
+                        <div @click="editPoint(scope)" class="truncate">{{ scope.row.income }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="title" label="公告標題" > 
+                <el-table-column prop="expense" label="支出" > 
                     <template #default="scope">
-                        <div @click="editNew(scope)" class="truncate">{{ scope.row.title }}</div>
+                        <div @click="editPoint(scope)" class="truncate">{{ scope.row.expense }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="startTime" label="開始時間" > 
+                <el-table-column prop="remain" label="剩餘" > 
                     <template #default="scope">
-                        <div @click="editNew(scope)" class="truncate">{{ scope.row.startTime }}</div>
+                        <div @click="editPoint(scope)" class="truncate">{{ scope.row.remain }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="endTime" label="結束時間" > 
-                    <template #default="scope">
-                        <div @click="editNew(scope)" class="truncate">{{ scope.row.endTime }}</div>
-                    </template>
-                </el-table-column>
-                
             </el-table>
         </div>
         <div class="w-full md:w-[80%] h-auto flex flex-wrap justify-center items-center">
@@ -196,69 +190,28 @@
                     </div>
                 </template>
             </dialogView>
-            <dialogView v-if="newStatus">
+            <dialogView type="small" v-if="pointStatus">
                 <template v-slot:title>
-                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">公告設定</div>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">發送積分</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
                 </template>
                 <template v-slot:message>
                     <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto">
-                        <el-form :inline="false" label-position="top" :model="newsform" label-width="60px" style="width:100%;padding:10px 5px;">
-                            <el-form-item label="公告識別碼">
+                        <el-form :inline="false" label-position="top" :model="pointForm" label-width="60px" style="width:100%;padding:10px 5px;">
+                            <el-form-item label="使用者">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.id" />
+                                    <el-input placeholder="" v-model="form.user" />
                                 </el-col>
                             </el-form-item>
-                            <el-form-item label="公告分類">
+                            <el-form-item label="數量">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.type" />
+                                    <el-input placeholder="" v-model="form.amount" />
                                 </el-col>
                             </el-form-item>
-                            <el-form-item label="公告標題">
+                            <el-form-item label="事由">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.title" />
+                                    <el-input placeholder="" v-model="form.reason" />
                                 </el-col>
-                            </el-form-item>
-                            <el-form-item label="預覽文字">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.text" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item label="預覽圖片">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.img" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item label="投放開始時間">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.startTime" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item label="投放結束時間">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item label="建立時間">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item label="修改時間">
-                                <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
-                                </el-col>
-                            </el-form-item>
-                            <el-form-item >
-                                <template #label>
-                                    <div class="flex flex-wrap justify-start items-start">
-                                        <div class="w-full text-lg">內容</div>
-                                        <div class="w-full text-base">編輯器正在內部測試中，為確保內容正常，請先使用App內的編輯器</div>
-                                    </div>
-                                </template>
-                                <template #default>
-                                    <el-input placeholder="" resize="none" :rows="3" type="textarea" v-model="form.content" />
-                                </template>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -267,13 +220,13 @@
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
                     <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
                         <button
-                            @click="checkNew"
+                            @click="checkPoint"
                             class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
                             刪除
                         </button>
                         <div class="w-auto flex flex-wrap justify-end items-center">
                             <button
-                                @click="checkNew"
+                                @click="checkPoint"
                                 class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
                                 確定
                             </button>
@@ -332,67 +285,59 @@ const openSelect = () => {
 
 const cancel = () => {
     groupStatus.value = false
-    newStatus.value = false
+    pointStatus.value = false
 }
 
 provide('cancel', cancel)
 
 const tableData = [
   {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
   {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
+    name:'使用者1',
+    income:'1',
+    expense:'2',
+    remain:'3'
   },
 
 ]
@@ -425,27 +370,20 @@ const groupTableData = [
   },
 ]
 
-const newsform = ref({
-    id:'',
-    type:'',
-    title:'',
-    text:'',
-    img:'',
-    startTime:'',
-    endTime:'',
-    createTime:'',
-    modifyTime:'',
-    content:''
+const pointForm = ref({
+    user:'',
+    amount:'',
+    reason:''
 })
 
-const newStatus = ref(false)
-const editNew = (item) => {
-    console.log('editNew',item)
-    newStatus.value = true
+const pointStatus = ref(false)
+const editPoint = (item) => {
+    console.log('editPoint',item)
+    pointStatus.value = true
 }
 
-const checkNew = () => {
-    console.log('checkNew',newsform.value)
+const checkPoint = () => {
+    console.log('pointForm',pointForm.value)
 }
 
 </script>

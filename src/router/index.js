@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import parameterView from '../views/parameter/index.vue'
 import permissionView from '../views/permission/index.vue'
 import newsView from '../views/news/index.vue'
+import pointView from '../views/point/index.vue'
 import errorView from '../views/errorView.vue'
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/newsView',
       name: 'newsView',
       component: newsView 
+    },
+    { 
+      path: '/pointView',
+      name: 'pointView',
+      component: pointView 
     },
     { 
       path: '/:pathMatch(.*)*',
