@@ -67,7 +67,8 @@ const urlData = ref([
             },
             {
                 name:'推播通知',
-                icon:'Phone'
+                icon:'Phone',
+                url:'/notificationView'
             },
         ]
     },
