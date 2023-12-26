@@ -96,7 +96,7 @@
                             </el-form>
                         </div>
                         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-                        <div class="w-[100%] md:w-[95%] h-auto flex flex-wrap justify-center items-center">
+                        <div class="w-[100%] h-auto flex flex-wrap justify-center items-center">
                             <el-table :data="groupTableData" stripe style="width: 100%">
                                 <el-table-column prop="date" label="集團名稱">
                                     <template #default="scope">
@@ -184,7 +184,7 @@
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
                 </template>
                 <template v-slot:message>
-                    <div class="w-[100%] md:w-[95%] h-auto flex flex-wrap justify-center items-center overflow-y-auto">
+                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-y-auto">
                         <el-table :show-header="false" :data="authority" stripe style="width: 100%">
                             <el-table-column prop="date" label="集團名稱">
                                 <template #default="scope">

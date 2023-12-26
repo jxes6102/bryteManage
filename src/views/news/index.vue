@@ -52,11 +52,32 @@
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
         <div class="w-full md:w-[80%] h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
             <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="img" label="預覽圖片" width="80" />
-                <el-table-column prop="type" label="公告分類" />
-                <el-table-column prop="title" label="公告標題"/>
-                <el-table-column prop="startTime" label="開始時間"/>
-                <el-table-column prop="endTime" label="結束時間"/>
+                <el-table-column prop="img" label="預覽圖片" width="80"> 
+                    <template #default="scope">
+                        <div @click="editNew(scope)" class="truncate">{{ scope.row.img }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="type" label="公告分類" > 
+                    <template #default="scope">
+                        <div @click="editNew(scope)" class="truncate">{{ scope.row.type }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="title" label="公告標題" > 
+                    <template #default="scope">
+                        <div @click="editNew(scope)" class="truncate">{{ scope.row.title }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="startTime" label="開始時間" > 
+                    <template #default="scope">
+                        <div @click="editNew(scope)" class="truncate">{{ scope.row.startTime }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="endTime" label="結束時間" > 
+                    <template #default="scope">
+                        <div @click="editNew(scope)" class="truncate">{{ scope.row.endTime }}</div>
+                    </template>
+                </el-table-column>
+                
             </el-table>
         </div>
         <div class="w-full md:w-[80%] h-auto flex flex-wrap justify-center items-center">
@@ -175,35 +196,93 @@
                     </div>
                 </template>
             </dialogView>
-            <dialogView v-if="authorityStatus">
+            <dialogView v-if="newStatus">
                 <template v-slot:title>
                     <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">群組名稱</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
                 </template>
                 <template v-slot:message>
-                    <div class="w-[100%] md:w-[95%] h-auto flex flex-wrap justify-center items-center overflow-y-auto">
-                        <el-table :show-header="false" :data="authority" stripe style="width: 100%">
-                            <el-table-column prop="date" label="集團名稱">
-                                <template #default="scope">
-                                    <el-checkbox v-model="scope.row.status" :label="scope.row.text" size="large" />
+                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto">
+                        <el-form :inline="false" label-position="top" :model="newsform" label-width="60px" style="width:100%;padding:10px 5px;">
+                            <el-form-item label="公告識別碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.id" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="公告分類">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.type" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="公告標題">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.title" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="預覽文字">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.text" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="預覽圖片">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.img" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="投放開始時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.startTime" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="投放結束時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.endTime" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="建立時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.endTime" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="修改時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="form.endTime" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item >
+                                <template #label>
+                                    <div class="flex flex-wrap justify-start items-start">
+                                        <div class="w-full text-lg">內容</div>
+                                        <div class="w-full text-base">編輯器正在內部測試中，為確保內容正常，請先使用App內的編輯器</div>
+                                    </div>
                                 </template>
-                            </el-table-column>
-                        </el-table>
+                                <template #default>
+                                    <el-input placeholder="" resize="none" :rows="3" type="textarea" v-model="form.content" />
+                                </template>
+                            </el-form-item>
+                        </el-form>
                     </div>
                 </template>
                 <template v-slot:control>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-end items-center">
+                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
                         <button
-                            @click="checkAuthority"
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            確定
+                            @click="checkNew"
+                            class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            刪除
                         </button>
-                        <button
-                            @click="cancel"
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            取消
-                        </button>
+                        <div class="w-auto flex flex-wrap justify-end items-center">
+                            <button
+                                @click="checkNew"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                確定
+                            </button>
+                            <button
+                                @click="cancel"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                取消
+                            </button>
+                        </div>
                     </div>
                 </template>
             </dialogView>
@@ -253,7 +332,7 @@ const openSelect = () => {
 
 const cancel = () => {
     groupStatus.value = false
-    authorityStatus.value = false
+    newStatus.value = false
 }
 
 provide('cancel', cancel)
@@ -346,108 +425,27 @@ const groupTableData = [
   },
 ]
 
-const authority = ref([
-    {
-        text:'權限節點說明',
-        status:false
-    },
-    {
-        text:'顯示集團管理',
-        status:false
-    },
-    {
-        text:'建立集團',
-        status:false
-    },
-    {
-        text:'檢視集團',
-        status:false
-    },
-    {
-        text:'編輯集團',
-        status:false
-    },
-    {
-        text:'刪除集團',
-        status:false
-    },
-    {
-        text:'顯示機構管理',
-        status:false
-    },
-    {
-        text:'建立機構',
-        status:false
-    },
-    {
-        text:'檢視機構',
-        status:false
-    },
-    {
-        text:'編輯機構',
-        status:false
-    },
-    {
-        text:'刪除機構',
-        status:false
-    },
-    {
-        text:'編輯橫幅',
-        status:false
-    },
-    {
-        text:'編輯簡介',
-        status:false
-    },
-    {
-        text:'顯示用戶管理',
-        status:false
-    },
-    {
-        text:'建立用戶',
-        status:false
-    },
-    {
-        text:'檢視用戶',
-        status:false
-    },
-    {
-        text:'編輯用戶',
-        status:false
-    },
-    {
-        text:'刪除用戶',
-        status:false
-    },
-    {
-        text:'顯示公告管理',
-        status:false
-    },
-    {
-        text:'建立公告',
-        status:false
-    },
-    {
-        text:'檢視公告',
-        status:false
-    },
-    {
-        text:'編輯公告',
-        status:false
-    },
-    {
-        text:'刪除公告',
-        status:false
-    },
-])
-const authorityStatus = ref(false)
-const editAuthority = (item) => {
-    console.log('editAuthority',item)
-    authorityStatus.value = true
+const newsform = ref({
+    id:'',
+    type:'',
+    title:'',
+    text:'',
+    img:'',
+    startTime:'',
+    endTime:'',
+    createTime:'',
+    modifyTime:'',
+    content:''
+})
+
+const newStatus = ref(false)
+const editNew = (item) => {
+    console.log('editNew',item)
+    newStatus.value = true
 }
 
-const checkAuthority = () => {
-    console.log('authority',authority.value)
+const checkNew = () => {
+    console.log('checkNew',newsform.value)
 }
 
 </script>
