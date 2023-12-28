@@ -62,7 +62,7 @@
         </div>
 
         <Teleport to="body">
-            <dialogView type="large" v-if="groupStatus">
+            <dialogView type="large" layer="1001" @close="cancelGroup" v-if="groupStatus">
                 <template v-slot:title>
                     <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">選擇集團</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
@@ -149,22 +149,8 @@
                         </div>
                     </div>
                 </template>
-                <template v-slot:control>
-                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-end items-center">
-                        <button
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            確定
-                        </button>
-                        <button
-                            @click="cancel"
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            取消
-                        </button>
-                    </div>
-                </template>
             </dialogView>
-            <dialogView type="large" v-if="userStatus">
+            <dialogView type="large" @close="cancelUser" v-if="userStatus">
                 <template v-slot:title>
                     <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">選擇使用者</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
@@ -203,13 +189,14 @@
                                     </el-col>
                                 </el-form-item>
                                 <el-form-item label-width="0px">
-                                    <el-col :span="18">
-                                        <el-input placeholder="使用帳號或信箱" v-model="form.keyWord" />
-                                    </el-col>
-                                    <el-col :span="6">
-                                        <el-button class="mx-1" type="primary" @click="onSubmit">查詢</el-button>
-                                    </el-col>
+                                    <template #default>
+                                        <div class="w-full flex flex-wrap justify-center items-center ">
+                                            <el-input placeholder="使用帳號或信箱" v-model="form.keyWord"  :style="{ width: isMobile ? '150px' : '400px' }" />
+                                            <el-button class="mx-1" type="primary" @click="onSubmit">查詢</el-button>
+                                        </div>
+                                    </template>
                                 </el-form-item>
+                                
                             </el-form>
                         </div>
                         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
@@ -285,7 +272,7 @@
 
 <script setup>
 /*eslint-disable*/
-import { ref,computed,provide } from "vue"
+import { ref,computed } from "vue"
 import { useRouter,useRoute } from "vue-router"
 import { useMobileStore } from '@/stores/index'
 import dialogView from "@/components/dialogView.vue"
@@ -320,72 +307,13 @@ const openSelect = () => {
     groupStatus.value = true
 }
 
-const cancel = () => {
+const cancelGroup = () => {
     groupStatus.value = false
-    userStatus.value = false
 }
 
-provide('cancel', cancel)
-
-const tableData = [
-  {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'促銷活動',
-    title:'實事求是',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-  {
-    img:'',
-    type:'活動訊息',
-    title:'我們都是一個沒有關係的人',
-    startTime:'2023/02/13 00:00',
-    endTime:'2023/02/13 00:00'
-  },
-
-]
+const cancelUser = () => {
+    userStatus.value = false
+}
 
 const groupTableData = [
   {
@@ -443,19 +371,6 @@ const userTableData = [
   },
 ]
 
-const newsform = ref({
-    id:'',
-    type:'',
-    title:'',
-    text:'',
-    img:'',
-    startTime:'',
-    endTime:'',
-    createTime:'',
-    modifyTime:'',
-    content:''
-})
-
 const userForm = ref({
     name:'',
     institution:'',
@@ -466,10 +381,6 @@ const userStatus = ref(false)
 const editUser = (item) => {
     console.log('editUser',item)
     userStatus.value = true
-}
-
-const checkNew = () => {
-    console.log('checkNew',newsform.value)
 }
 
 </script>
