@@ -88,7 +88,7 @@
         </div>
 
         <Teleport to="body">
-            <dialogView type="large" v-if="groupStatus">
+            <dialogView @close="cancel" type="large" v-if="groupStatus">
                 <template v-slot:title>
                     <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">選擇集團</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
@@ -190,7 +190,7 @@
                     </div>
                 </template>
             </dialogView>
-            <dialogView type="small" v-if="pointStatus">
+            <dialogView @close="cancel" type="small" v-if="pointStatus">
                 <template v-slot:title>
                     <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">發送積分</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
@@ -245,7 +245,7 @@
 
 <script setup>
 /*eslint-disable*/
-import { ref,computed,provide } from "vue"
+import { ref,computed } from "vue"
 import { useRouter,useRoute } from "vue-router"
 import { useMobileStore } from '@/stores/index'
 import dialogView from "@/components/dialogView.vue"
@@ -287,8 +287,6 @@ const cancel = () => {
     groupStatus.value = false
     pointStatus.value = false
 }
-
-provide('cancel', cancel)
 
 const tableData = [
   {

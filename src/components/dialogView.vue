@@ -30,7 +30,7 @@
 <script setup>
 /*eslint-disable*/
 import 'animate.css';
-import { ref,computed,inject,defineEmits } from "vue";
+import { ref,computed } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter()
 
