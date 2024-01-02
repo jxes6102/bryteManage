@@ -2,8 +2,9 @@
     <div 
         class="w-full h-[100vh] flex flex-col justify-start items-start"
     >
-        <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
-            公告管理
+        <div class="w-full md:w-[80%] my-3 px-3 text-3xl flex flex-wrap justify-between items-center">
+            <div>公告管理</div>
+            <div><el-button class="mx-1" type="info" @click="editNew">新增公告</el-button></div>
         </div>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
         <div class="w-full md:w-[80%] my-2 p-1 md:p-2 rounded-md ">
@@ -106,47 +107,47 @@
                         <el-form :inline="false" label-position="top" :model="newsform" label-width="60px" style="width:100%;padding:10px 5px;">
                             <el-form-item label="公告識別碼">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.id" />
+                                    <el-input placeholder="" v-model="newsform.id" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="公告分類">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.type" />
+                                    <el-input placeholder="" v-model="newsform.type" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="公告標題">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.title" />
+                                    <el-input placeholder="" v-model="newsform.title" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="預覽文字">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.text" />
+                                    <el-input placeholder="" v-model="newsform.text" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="預覽圖片">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.img" />
+                                    <el-input placeholder="" v-model="newsform.img" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="投放開始時間">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.startTime" />
+                                    <el-input placeholder="" v-model="newsform.startTime" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="投放結束時間">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
+                                    <el-input placeholder="" v-model="newsform.endTime" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="建立時間">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
+                                    <el-input placeholder="" v-model="newsform.endTime" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item label="修改時間">
                                 <el-col :span="24">
-                                    <el-input placeholder="" v-model="form.endTime" />
+                                    <el-input placeholder="" v-model="newsform.endTime" />
                                 </el-col>
                             </el-form-item>
                             <el-form-item >
@@ -157,7 +158,7 @@
                                     </div>
                                 </template>
                                 <template #default>
-                                    <el-input placeholder="" resize="none" :rows="3" type="textarea" v-model="form.content" />
+                                    <el-input placeholder="" resize="none" :rows="3" type="textarea" v-model="newsform.content" />
                                 </template>
                             </el-form-item>
                         </el-form>

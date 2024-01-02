@@ -5,6 +5,7 @@ import permissionView from '../views/permission/index.vue'
 import newsView from '../views/news/index.vue'
 import pointView from '../views/point/index.vue'
 import notificationView from '../views/notification/index.vue'
+import organizeView from '../views/organize/index.vue'
 import errorView from '../views/errorView.vue'
 
 const router = createRouter({
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/notificationView',
       name: 'notificationView',
       component: notificationView 
+    },
+    { 
+      path: '/organizeView',
+      name: 'organizeView',
+      component: organizeView 
     },
     { 
       path: '/:pathMatch(.*)*',

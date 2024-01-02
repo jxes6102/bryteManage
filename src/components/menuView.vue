@@ -53,7 +53,8 @@ const urlData = ref([
         children:[
             {
                 name:'組織管理',
-                icon:'AddLocation'
+                icon:'AddLocation',
+                url:'/organizeView'
             },
             {
                 name:'公告管理',
