@@ -2,8 +2,10 @@
     <div 
         class="w-full h-[100vh] flex flex-col justify-start items-start"
     >
-        <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
-            組織管理
+        <div class="w-full md:w-[80%] my-3 px-3 text-3xl flex flex-wrap justify-between items-center">
+            <div>組織管理</div>
+            <div v-if="activeName == '1'"><el-button @click="editGroup" class="mx-1" type="info" >新增集團</el-button></div>
+            <div v-else-if="activeName == '2'"><el-button class="mx-1" type="info" >新增單位</el-button></div>
         </div>
         <el-tabs v-model="activeName" class="demo-tabs mx-2" @tab-click="handleClick">
             <el-tab-pane label="集團" name="1"></el-tab-pane>
@@ -97,11 +99,8 @@
             </el-form>
         </div>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-        <!-- <div class="w-full my-1 md:my-3 px-3 text-xl font-semibold flex flex-wrap justify-start items-center">
-            群組名稱
-        </div> -->
         <div class="w-full md:w-[80%] h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
-            <el-table v-if="activeName == '1'" :data="groupTable" stripe style="width: 100%">
+            <el-table v-if="activeName == '1'" :data="groupTable" @row-click="clickGroupRow" stripe style="width: 100%">
                 <el-table-column prop="groupName" label="集團名稱" />
                 <el-table-column prop="groupID" label="集團代號" />
                 <el-table-column prop="leader" label="負責人姓名" />
@@ -120,7 +119,7 @@
                 <el-table-column prop="receivable" label="應收帳款" />
                 <el-table-column prop="expirationDate" label="到期日" />
             </el-table>
-            <el-table v-else-if="activeName == '3'" :data="userTable" stripe style="width: 100%">
+            <el-table v-else-if="activeName == '3'" :data="userTable" @row-click="clickUserRow" stripe style="width: 100%">
                 <el-table-column prop="groupName" label="集團" />
                 <el-table-column prop="institutionName" label="機構" />
                 <el-table-column prop="user" label="名稱" />
@@ -144,35 +143,197 @@
         <choseGroup @close="cancel" v-if="groupStatus"></choseGroup>
 
         <Teleport to="body">
-            <dialogView @close="cancel" v-if="authorityStatus">
+            <dialogView @close="cancel" v-if="editGroupStatus">
                 <template v-slot:title>
-                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">群組名稱</div>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">編輯集團</div>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
                 </template>
                 <template v-slot:message>
-                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-y-auto">
-                        <el-table :show-header="false" :data="authority" stripe style="width: 100%">
-                            <el-table-column prop="date" label="集團名稱">
-                                <template #default="scope">
-                                    <el-checkbox v-model="scope.row.status" :label="scope.row.text" size="large" />
-                                </template>
-                            </el-table-column>
-                        </el-table>
+                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto">
+                        <el-form :inline="false" label-position="top" :model="groupData" label-width="60px" style="width:100%;padding:10px 5px;">
+                            <el-form-item label="集團識別碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.key" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="集團名稱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.name" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="集團代號">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.id" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="單位數量">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.institutionCount" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="負責人姓名">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.leaderName" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="負責人電話">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.leaderPhone" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="負責人信箱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.leaderEmail" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="建立時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.createTime" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="修改時間">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="groupData.modifyTime" />
+                                </el-col>
+                            </el-form-item>
+                        </el-form>
                     </div>
                 </template>
                 <template v-slot:control>
                     <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-end items-center">
+                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
                         <button
-                            @click="checkAuthority"
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            確定
+                            @click="checkGroup"
+                            class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            刪除
                         </button>
+                        <div class="w-auto flex flex-wrap justify-end items-center">
+                            <button
+                                @click="checkGroup"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                確定
+                            </button>
+                            <button
+                                @click="cancel"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </dialogView>
+
+            <dialogView @close="cancel" v-if="editUserStatus">
+                <template v-slot:title>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">編輯使用者</div>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                </template>
+                <template v-slot:message>
+                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto">
+                        <el-form :inline="false" label-position="top" :model="userData" label-width="60px" style="width:100%;padding:10px 5px;">
+                            <el-form-item label="使用者識別碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.key" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="使用者名稱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.name" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="使用者暱稱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.nickName" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="使用者帳號">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.account" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="使用者密碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.password" type="password" show-password />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="電子信箱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.email" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="手機">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.phone" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="性別">
+                                <el-col :span="24">
+                                    <el-select
+                                        style="width: 100%;font-size: 14px;"
+                                        v-model="userData.sex" 
+                                        placeholder="">
+                                        <el-option label="男" value="男" />
+                                        <el-option label="女" value="女" />
+                                        <el-option label="不便透漏" value="不便透漏" />
+                                    </el-select>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="生日">
+                                <el-col :span="24">
+                                    <el-date-picker
+                                        popper-class="custom-date-picker"
+                                        v-model="userData.birthday"
+                                        type="date"
+                                        placeholder="Pick a date"
+                                        :default-value="new Date()"
+                                        style="width: 100%;font-size: 14px;"
+                                    />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="邀請碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.invitationNumber" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE識別碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="userData.lineNumber" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="權限群組">
+                                <el-col :span="24">
+                                    <el-select
+                                        style="width: 100%;font-size: 14px;"
+                                        v-model="userData.authority" 
+                                        placeholder="">
+                                        <el-option label="使用者" value="使用者" />
+                                        <el-option label="集團管理員" value="集團管理員" />
+                                    </el-select>
+                                </el-col>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </template>
+                <template v-slot:control>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
                         <button
-                            @click="cancel"
-                            class="min-w-[10%] bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
-                            取消
+                            @click="checkUser"
+                            class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            刪除
                         </button>
+                        <div class="w-auto flex flex-wrap justify-end items-center">
+                            <button
+                                @click="checkUser"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                確定
+                            </button>
+                            <button
+                                @click="cancel"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                取消
+                            </button>
+                        </div>
                     </div>
                 </template>
             </dialogView>
@@ -224,7 +385,8 @@ const openSelect = () => {
 
 const cancel = () => {
     groupStatus.value = false
-    authorityStatus.value = false
+    editGroupStatus.value = false
+    editUserStatus.value = false
 }
 
 const groupTable = [
@@ -320,109 +482,57 @@ const userTable = [
 
 ]
 
-
-const authority = ref([
-    {
-        text:'權限節點說明',
-        status:false
-    },
-    {
-        text:'顯示集團管理',
-        status:false
-    },
-    {
-        text:'建立集團',
-        status:false
-    },
-    {
-        text:'檢視集團',
-        status:false
-    },
-    {
-        text:'編輯集團',
-        status:false
-    },
-    {
-        text:'刪除集團',
-        status:false
-    },
-    {
-        text:'顯示機構管理',
-        status:false
-    },
-    {
-        text:'建立機構',
-        status:false
-    },
-    {
-        text:'檢視機構',
-        status:false
-    },
-    {
-        text:'編輯機構',
-        status:false
-    },
-    {
-        text:'刪除機構',
-        status:false
-    },
-    {
-        text:'編輯橫幅',
-        status:false
-    },
-    {
-        text:'編輯簡介',
-        status:false
-    },
-    {
-        text:'顯示用戶管理',
-        status:false
-    },
-    {
-        text:'建立用戶',
-        status:false
-    },
-    {
-        text:'檢視用戶',
-        status:false
-    },
-    {
-        text:'編輯用戶',
-        status:false
-    },
-    {
-        text:'刪除用戶',
-        status:false
-    },
-    {
-        text:'顯示公告管理',
-        status:false
-    },
-    {
-        text:'建立公告',
-        status:false
-    },
-    {
-        text:'檢視公告',
-        status:false
-    },
-    {
-        text:'編輯公告',
-        status:false
-    },
-    {
-        text:'刪除公告',
-        status:false
-    },
-])
-const authorityStatus = ref(false)
-const editAuthority = (item) => {
-    console.log('editAuthority',item)
-    authorityStatus.value = true
+const groupData = ref({
+    key:'',
+    name:'',
+    id:'',
+    institutionCount:'',
+    leaderName:'',
+    leaderPhone:'',
+    leaderEmail:'',
+    createTime:'',
+    modifyTime:'',
+})
+const editGroupStatus = ref(false)
+const editGroup = (item) => {
+    editGroupStatus.value = true
 }
 
-const checkAuthority = () => {
-    console.log('authority',authority.value)
+const checkGroup = () => {
+    console.log('checkGroup',groupData.value)
+}
+
+const clickGroupRow = (row, column, event) => {
+    console.log('clickRow',row, column, event)
+    editGroup()
+}
+
+const userData = ref({
+    key:'',
+    name:'',
+    nickName:'',
+    account:'',
+    password:'',
+    email:'',
+    phone:'',
+    sex:'',
+    birthday:new Date(),
+    invitationNumber:'',
+    lineNumber:'',
+    authority:''
+})
+const editUserStatus = ref(false)
+const editUser = (item) => {
+    editUserStatus.value = true
+}
+
+const checkUser = () => {
+    console.log('checkUser',userData.value)
+}
+
+const clickUserRow = (row, column, event) => {
+    console.log('clickRow',row, column, event)
+    editUser()
 }
 
 // activeName string 1 集團 2 單位 3 用戶
@@ -459,6 +569,5 @@ const handleClick = (tab, event) => {
 :deep(.demo-tabs > .el-tabs__header) {
     margin: 0px !important;
 }
-
 
 </style>
