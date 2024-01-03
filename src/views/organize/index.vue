@@ -5,14 +5,61 @@
         <div class="w-full my-3 px-3 text-3xl flex flex-wrap justify-start items-center">
             組織管理
         </div>
+        <el-tabs v-model="activeName" class="demo-tabs mx-2" @tab-click="handleClick">
+            <el-tab-pane label="集團" name="1"></el-tab-pane>
+            <el-tab-pane label="單位" name="2"></el-tab-pane>
+            <el-tab-pane label="用戶" name="3"></el-tab-pane>
+        </el-tabs>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
         <div class="w-full md:w-[80%] my-2 p-1 md:p-2 rounded-md ">
-            <el-form :inline="!isMobile" :model="form" label-width="60px">
+            <el-form v-if="activeName == '1'" :inline="!isMobile" :model="groupForm" label-width="60px">
+                <el-form-item label="關鍵字">
+                    <el-col :span="24">
+                        <el-input placeholder="集團名稱或集團代號" v-model="groupForm.keyWord" />
+                    </el-col>
+                </el-form-item>
+                <el-form-item>
+                    <el-col :span="24">
+                        <el-button class="mx-1" type="primary" @click="onSubmit">查詢</el-button>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <el-form v-else-if="activeName == '2'" :inline="!isMobile" :model="institutionForm" label-width="60px">
                 <el-form-item label="集團">
                     <el-col :span="24">
                         <el-input
                             disabled
-                            v-model="form.groupName"
+                            v-model="institutionForm.groupName"
+                            placeholder=""
+                            class="input-with-select"
+                            >
+                            <template #append>
+                                <el-button
+                                    @click="openSelect" 
+                                    style="background-color: #409eff;color:white;">
+                                    選擇
+                                </el-button>
+                            </template>
+                        </el-input>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="關鍵字">
+                    <el-col :span="24">
+                        <el-input placeholder="單位名稱或單位代號" v-model="institutionForm.keyWord" />
+                    </el-col>
+                </el-form-item>
+                <el-form-item>
+                    <el-col :span="24">
+                        <el-button class="mx-1" type="primary" @click="onSubmit">查詢</el-button>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <el-form v-else-if="activeName == '3'" :inline="!isMobile" :model="userForm" label-width="60px">
+                <el-form-item label="集團">
+                    <el-col :span="24">
+                        <el-input
+                            disabled
+                            v-model="userForm.groupName"
                             placeholder=""
                             class="input-with-select"
                             >
@@ -30,7 +77,7 @@
                     <el-col :span="24">
                         <el-select
                             :style="isMobile ? 'width: 100%;font-size: 14px;' : ''"
-                            v-model="form.institution" 
+                            v-model="userForm.institution" 
                             placeholder="">
                             <el-option label="Zone one" value="shanghai" />
                             <el-option label="Zone two" value="beijing" />
@@ -39,7 +86,7 @@
                 </el-form-item>
                 <el-form-item label="關鍵字">
                     <el-col :span="24">
-                        <el-input placeholder="群組名稱" v-model="form.desc" />
+                        <el-input placeholder="使用者名稱或帳號" v-model="userForm.keyWord" />
                     </el-col>
                 </el-form-item>
                 <el-form-item>
@@ -50,16 +97,32 @@
             </el-form>
         </div>
         <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
-        <div class="w-full my-1 md:my-3 px-3 text-xl font-semibold flex flex-wrap justify-start items-center">
+        <!-- <div class="w-full my-1 md:my-3 px-3 text-xl font-semibold flex flex-wrap justify-start items-center">
             群組名稱
-        </div>
+        </div> -->
         <div class="w-full md:w-[80%] h-auto my-1 px-2 py-1 flex flex-wrap justify-center items-center">
-            <el-table :show-header="false" :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="date">
+            <el-table v-if="activeName == '1'" :data="groupTable" stripe style="width: 100%">
+                <el-table-column prop="groupName" label="集團名稱" />
+                <el-table-column prop="groupID" label="集團代號" />
+                <el-table-column prop="leader" label="負責人姓名" />
+                <el-table-column prop="amount" label="單位數量" />
+                <!-- <el-table-column prop="date" label="Date">
                     <template #default="scope">
                         <div @click="editAuthority(scope)" class="truncate">{{ scope.row.address }}</div>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
+            </el-table>
+            <el-table v-else-if="activeName == '2'" :data="groupTable" stripe style="width: 100%">
+                <el-table-column prop="groupName" label="集團名稱" />
+                <el-table-column prop="groupID" label="集團代號" />
+                <el-table-column prop="leader" label="負責人姓名" />
+                <el-table-column prop="amount" label="單位數量" />
+            </el-table>
+            <el-table v-else-if="activeName == '3'" :data="groupTable" stripe style="width: 100%">
+                <el-table-column prop="groupName" label="集團名稱" />
+                <el-table-column prop="groupID" label="集團代號" />
+                <el-table-column prop="leader" label="負責人姓名" />
+                <el-table-column prop="amount" label="單位數量" />
             </el-table>
         </div>
         <div class="w-full md:w-[80%] h-auto flex flex-wrap justify-center items-center">
@@ -116,7 +179,7 @@
 
 <script setup>
 /*eslint-disable*/
-import { ref,computed } from "vue"
+import { ref,computed,watch } from "vue"
 import { useRouter,useRoute } from "vue-router"
 import { useMobileStore } from '@/stores/index'
 import dialogView from "@/components/dialogView.vue"
@@ -133,9 +196,19 @@ const isMobile = computed(() => {
 
 const groupStatus = ref(false)
 
-const form = ref({
+const groupForm = ref({
+    keyWord:''
+})
+
+const institutionForm = ref({
+  groupName:'',
+  keyWord:'',
+})
+
+const userForm = ref({
   groupName:'',
   institution:'',
+  keyWord:'',
 })
 
 const onSubmit = () => {
@@ -151,33 +224,51 @@ const cancel = () => {
     authorityStatus.value = false
 }
 
-const tableData = [
+const groupTable = [
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'Los Angeles',
+    groupName: '精英國際教育集團',
+    groupID: 'ELITE',
+    leader: '張義雄',
+    amount:'13'
   },
   {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'Los Angeles',
+    groupName: '精英國際教育集團',
+    groupID: 'ELITE',
+    leader: '張義雄',
+    amount:'13'
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'Los Angeles',
+    groupName: '精英國際教育集團',
+    groupID: 'ELITE',
+    leader: '張義雄',
+    amount:'13'
   },
   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'Los Angeles',
+    groupName: '精英國際教育集團',
+    groupID: 'ELITE',
+    leader: '張義雄',
+    amount:'13'
   },
   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'Los Angeles',
+    groupName: '精英國際教育集團',
+    groupID: 'ELITE',
+    leader: '張義雄',
+    amount:'13'
   },
 ]
+
+const institutionTable = [
+  {
+    institutionName: '精英國際教育集團',
+    institutionID: 'ELITE',
+    leader: '張義雄',
+    phone:'0958457154',
+    receivable:'123',
+    expirationDate:'2024-12-04'
+  },
+
+]
+
 
 const authority = ref([
     {
@@ -283,6 +374,17 @@ const checkAuthority = () => {
     console.log('authority',authority.value)
 }
 
+// activeName string 1 集團 2 單位 3 用戶
+const activeName = ref('1')
+watch(activeName, (newVal, oldVal) => {
+    //  console.log('newVal',newVal)
+})
+const handleClick = (tab, event) => {
+    //  console.log('activeName',activeName.value)
+    //  console.log('tab', tab)
+    //  console.log('event', event)
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -302,5 +404,10 @@ const checkAuthority = () => {
     }
 
 }
+
+:deep(.demo-tabs > .el-tabs__header) {
+    margin: 0px !important;
+}
+
 
 </style>
