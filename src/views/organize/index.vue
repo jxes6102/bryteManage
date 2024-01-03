@@ -112,17 +112,20 @@
                     </template>
                 </el-table-column> -->
             </el-table>
-            <el-table v-else-if="activeName == '2'" :data="groupTable" stripe style="width: 100%">
-                <el-table-column prop="groupName" label="集團名稱" />
-                <el-table-column prop="groupID" label="集團代號" />
+            <el-table v-else-if="activeName == '2'" :data="institutionTable" stripe style="width: 100%">
+                <el-table-column prop="institutionName" label="單位名稱" />
+                <el-table-column prop="institutionID" label="單位代號" />
                 <el-table-column prop="leader" label="負責人姓名" />
-                <el-table-column prop="amount" label="單位數量" />
+                <el-table-column prop="phone" label="連絡電話" />
+                <el-table-column prop="receivable" label="應收帳款" />
+                <el-table-column prop="expirationDate" label="到期日" />
             </el-table>
-            <el-table v-else-if="activeName == '3'" :data="groupTable" stripe style="width: 100%">
-                <el-table-column prop="groupName" label="集團名稱" />
-                <el-table-column prop="groupID" label="集團代號" />
-                <el-table-column prop="leader" label="負責人姓名" />
-                <el-table-column prop="amount" label="單位數量" />
+            <el-table v-else-if="activeName == '3'" :data="userTable" stripe style="width: 100%">
+                <el-table-column prop="groupName" label="集團" />
+                <el-table-column prop="institutionName" label="機構" />
+                <el-table-column prop="user" label="名稱" />
+                <el-table-column prop="account" label="帳號" />
+                <el-table-column prop="email" label="信箱" />
             </el-table>
         </div>
         <div class="w-full md:w-[80%] h-auto flex flex-wrap justify-center items-center">
@@ -265,6 +268,54 @@ const institutionTable = [
     phone:'0958457154',
     receivable:'123',
     expirationDate:'2024-12-04'
+  },
+  {
+    institutionName: '精英國際教育集團',
+    institutionID: 'ELITE',
+    leader: '張義雄',
+    phone:'0958457154',
+    receivable:'123',
+    expirationDate:'2024-12-04'
+  },
+  {
+    institutionName: '精英國際教育集團',
+    institutionID: 'ELITE',
+    leader: '張義雄',
+    phone:'0958457154',
+    receivable:'123',
+    expirationDate:'2024-12-04'
+  },
+
+]
+
+const userTable = [
+  {
+    groupName: '精英國際教育集團',
+    institutionName: '智光CRM客戶管理',
+    user: '張義雄',
+    account :'root',
+    email:'zxcasd@gmail.com',
+  },
+  {
+    groupName: '精英國際教育集團',
+    institutionName: '智光CRM客戶管理',
+    user: '張義雄',
+    account :'root',
+    email:'zxcasd@gmail.com',
+  },
+  {
+    groupName: '精英國際教育集團',
+    institutionName: '智光CRM客戶管理',
+    user: '張義雄',
+    account :'root',
+    email:'zxcasd@gmail.com',
+  },
+  {
+    groupName: '精英國際教育集團',
+    institutionName: '智光CRM客戶管理',
+    user: '張義雄',
+    account :'root',
+    email:'zxcasd@gmail.com',
   },
 
 ]
