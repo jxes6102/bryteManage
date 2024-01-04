@@ -111,7 +111,7 @@
                     </template>
                 </el-table-column> -->
             </el-table>
-            <el-table v-else-if="activeName == '2'" :data="institutionTable" stripe style="width: 100%">
+            <el-table v-else-if="activeName == '2'" :data="institutionTable" @row-click="clickInstitutionRow" stripe style="width: 100%">
                 <el-table-column prop="institutionName" label="單位名稱" />
                 <el-table-column prop="institutionID" label="單位代號" />
                 <el-table-column prop="leader" label="負責人姓名" />
@@ -337,6 +337,24 @@
                     </div>
                 </template>
             </dialogView>
+
+
+            <dialogView type="small" @close="closeMenu" v-if="menuStatus">
+                <template v-slot:title>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">選單</div>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                </template>
+                <template v-slot:message>
+                    <div class="w-full h-[200px] p-4 flex flex-col justify-between items-center gap-y-[20px]">
+                        <div @click="editInstitution" class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯基本資料</div>
+                        <div class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯橫幅</div>
+                        <div class="w-[95%] md:w-[90%] text-2xl text-gray-400 p-2 border-[1px] border-gray-400 rounded-lg flex flex-wrap justify-center items-center">編輯簡介(製作中)</div>
+                    </div>
+                </template>
+            </dialogView>
+
+
+
         </Teleport>
     </div>
 </template>
@@ -534,6 +552,27 @@ const clickUserRow = (row, column, event) => {
     console.log('clickRow',row, column, event)
     editUser()
 }
+
+
+
+const editInstitutionStatus = ref(false)
+const menuStatus = ref(false)
+const clickInstitutionRow = (row, column, event) => {
+    console.log('clickInstitutionRow',row, column, event)
+    menuStatus.value = true
+}
+const closeMenu = () => {
+    console.log('closeMenu')
+    menuStatus.value = false
+}
+const editInstitution = () => {
+    console.log('editInstitution')
+    editInstitutionStatus.value = true
+    closeMenu()
+}
+
+
+
 
 // activeName string 1 集團 2 單位 3 用戶
 const activeName = ref('1')
