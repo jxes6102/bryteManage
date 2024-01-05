@@ -5,7 +5,7 @@
         <div class="w-full md:w-[80%] my-3 px-3 text-3xl flex flex-wrap justify-between items-center">
             <div>組織管理</div>
             <div v-if="activeName == '1'"><el-button @click="editGroup" class="mx-1" type="info" >新增集團</el-button></div>
-            <div v-else-if="activeName == '2'"><el-button class="mx-1" type="info" >新增單位</el-button></div>
+            <div v-else-if="activeName == '2'"><el-button @click="editInstitution" class="mx-1" type="info" >新增單位</el-button></div>
         </div>
         <el-tabs v-model="activeName" class="demo-tabs mx-2" @tab-click="handleClick">
             <el-tab-pane label="集團" name="1"></el-tab-pane>
@@ -355,6 +355,183 @@
 
 
 
+
+            <dialogView @close="closeInstitution" v-if="editInstitutionStatus">
+                <template v-slot:title>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">編輯單位</div>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                </template>
+                <template v-slot:message>
+                    <div class="w-[100%] h-auto flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto">
+                        <el-form :inline="false" label-position="top" :model="institutionData" label-width="60px" style="width:100%;padding:10px 5px;">
+                            <div class="text-2xl font-semibold">基本資料</div>
+                            <el-form-item label="單位識別碼">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.key" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="所屬集團">
+                                <el-col :span="24">
+                                    <el-input
+                                        disabled
+                                        v-model="institutionData.group"
+                                        placeholder=""
+                                        class="input-with-select"
+                                        >
+                                        <template #append>
+                                            <el-button
+                                                @click="openSelect" 
+                                                style="background-color: #409eff;color:white;">
+                                                選擇
+                                            </el-button>
+                                        </template>
+                                    </el-input>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="單位名稱">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.name" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="單位代號">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.id" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="單位電話">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.phone" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="負責人">
+                                <el-col :span="24">
+                                    <el-input
+                                        disabled
+                                        v-model="institutionData.leader"
+                                        placeholder=""
+                                        class="input-with-select"
+                                        >
+                                        <template #append>
+                                            <el-button
+                                                @click="openSelect" 
+                                                style="background-color: #409eff;color:white;">
+                                                選擇
+                                            </el-button>
+                                        </template>
+                                    </el-input>
+                                </el-col>
+                            </el-form-item>
+                            <div class="text-2xl font-semibold">LINE設定</div>
+                            <el-form-item label="邀請URL">
+                                <el-col :span="24">
+                                    <el-input
+                                        disabled
+                                        v-model="institutionData.invitationUrl"
+                                        placeholder=""
+                                        class="input-with-select"
+                                        >
+                                        <template #append>
+                                            <el-button
+                                                style="background-color: #409eff;color:white;">
+                                                複製
+                                            </el-button>
+                                        </template>
+                                    </el-input>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE Login Channel ID">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineID" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE Login Channel Secret">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineSecret" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE@生活圈 搜尋ID">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineSerachID" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE Login LIFF ID">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineLiffID" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LIFF Url">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineLiffUrl" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE Messaging Channel ID">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineMessagingID" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="LINE Messaging Channel Secret">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.lineMessagingSecret" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="應支付金額">
+                                <el-col :span="24">
+                                    <el-input placeholder="" v-model="institutionData.paymentAmount" />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="支付期限">
+                                <el-col :span="24">
+                                    <el-date-picker
+                                        popper-class="custom-date-picker"
+                                        v-model="institutionData.paymentTerm"
+                                        type="date"
+                                        placeholder="Pick a date"
+                                        :default-value="new Date()"
+                                        style="width: 100%;font-size: 14px;"
+                                    />
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item label="到期日">
+                                <el-col :span="24">
+                                    <el-date-picker
+                                        popper-class="custom-date-picker"
+                                        v-model="institutionData.stopDate"
+                                        type="date"
+                                        placeholder="Pick a date"
+                                        :default-value="new Date()"
+                                        style="width: 100%;font-size: 14px;"
+                                    />
+                                </el-col>
+                            </el-form-item>
+                            
+                        </el-form>
+                    </div>
+                </template>
+                <template v-slot:control>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
+                        <button
+                            @click="checkInstitution"
+                            class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            刪除
+                        </button>
+                        <div class="w-auto flex flex-wrap justify-end items-center">
+                            <button
+                                @click="checkInstitution"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                確定
+                            </button>
+                            <button
+                                @click="closeInstitution"
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </dialogView>
+
+
         </Teleport>
     </div>
 </template>
@@ -570,8 +747,31 @@ const editInstitution = () => {
     editInstitutionStatus.value = true
     closeMenu()
 }
-
-
+const institutionData = ref({
+    key:'',
+    group:'',
+    name:'',
+    id:'',
+    phone:'',
+    leader:'',
+    invitationUrl:'',
+    lineID:'',
+    lineSecret:'',
+    lineSerachID:'',
+    lineLiffID:'',
+    lineLiffUrl:'',
+    lineMessagingID:'',
+    lineMessagingSecret:'',
+    paymentAmount:'',
+    paymentTerm:'',
+    stopDate:'',
+})
+const closeInstitution = () => {
+    editInstitutionStatus.value = false
+}
+const checkInstitution = () => {
+    console.log('checkInstitution',institutionData.value)
+}
 
 
 // activeName string 1 集團 2 單位 3 用戶
