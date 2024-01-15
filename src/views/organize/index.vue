@@ -347,14 +347,11 @@
                 <template v-slot:message>
                     <div class="w-full h-[200px] p-4 flex flex-col justify-between items-center gap-y-[20px]">
                         <div @click="editInstitution" class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯基本資料</div>
-                        <div class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯橫幅</div>
+                        <div @click="editBanner" class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯橫幅</div>
                         <div class="w-[95%] md:w-[90%] text-2xl text-gray-400 p-2 border-[1px] border-gray-400 rounded-lg flex flex-wrap justify-center items-center">編輯簡介(製作中)</div>
                     </div>
                 </template>
             </dialogView>
-
-
-
 
             <dialogView @close="closeInstitution" v-if="editInstitutionStatus">
                 <template v-slot:title>
@@ -531,6 +528,65 @@
                 </template>
             </dialogView>
 
+            <dialogView type="auto" @close="closeBanner" v-if="bannerStatus">
+                <template v-slot:title>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">編輯橫幅</div>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                </template>
+                <template v-slot:message>
+                    <el-table :data="bannerTable" stripe style="width: 100%">
+                        <el-table-column prop="sort" label="排序" width='60'>
+                            <template #default>
+                                <div class="w-full flex flex-col justify-center items-center"> 
+                                    <el-icon :size='isMobile ? 20 : 30'><ArrowUp /></el-icon>
+                                    <el-icon :size='isMobile ? 20 : 30'><ArrowDown /></el-icon>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="img" label="縮圖" />
+                        <el-table-column prop="url" label="圖片位置" />
+                        <el-table-column prop="link" label="連結位置" />
+                        <el-table-column prop="work" label="操作" width='60'>
+                            <template #default>
+                                <div class="w-full flex flex-col justify-center items-center"> 
+                                    <el-icon :size='isMobile ? 20 : 30'><Delete /></el-icon>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <!-- <el-table-column prop="date" label="Date">
+                            <template #default="scope">
+                                <div @click="editAuthority(scope)" class="truncate">{{ scope.row.address }}</div>
+                            </template>
+                        </el-table-column> -->
+                    </el-table>
+                    <div class="w-full px-5 my-2">
+                        <button
+                            @click="addBanner"
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            新增橫幅
+                        </button>
+                    </div>
+                </template>
+                <template v-slot:control>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                    <div class="w-full h-auto my-1 px-2 py-1 flex flex-wrap justify-between items-center">
+                        <button
+                            class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                            刪除
+                        </button>
+                        <div class="w-auto flex flex-wrap justify-end items-center">
+                            <button
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                確定
+                            </button>
+                            <button
+                                class="w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold mx-2 py-1 px-2 md:py-2 md:px-3 rounded">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </dialogView>
 
         </Teleport>
     </div>
@@ -775,14 +831,48 @@ const checkInstitution = () => {
 
 
 // activeName string 1 集團 2 單位 3 用戶
-const activeName = ref('1')
+const activeName = ref(localStorage.getItem('activeName') || '1')
 watch(activeName, (newVal, oldVal) => {
-    //  console.log('newVal',newVal)
+    // console.log('activeName',newVal)
+    localStorage.setItem('activeName',newVal)
 })
 const handleClick = (tab, event) => {
     //  console.log('activeName',activeName.value)
     //  console.log('tab', tab)
     //  console.log('event', event)
+}
+
+const bannerStatus = ref(false)
+const bannerTable = ref([
+    {
+        sort:'',
+        img:'',
+        url:'',
+        link:'test1',
+        work:'',
+        key:1
+    },
+])
+const closeBanner = () => {
+    bannerStatus.value = false
+}
+const editBanner = () => {
+    closeMenu()
+    bannerStatus.value = true
+}
+const addBanner = () => {
+    // console.log('addBanner')
+    bannerTable.value.push(
+        {
+            sort:'',
+            img:'',
+            url:'',
+            link:'test'+(bannerTable.value.length+1),
+            work:'',
+            key:bannerTable.value.length+1
+        },
+    )
+    
 }
 
 </script>

@@ -5,26 +5,30 @@
         :style="{ 'z-index': layer }"
     >
     </div>
-    <div 
-        :class="{ 
-            'left-[calc(50%_-_135px)] top-[calc(50%_-_225px)] md:left-[calc(50%_-_200px)] md:top-[calc(50%_-_300px)] w-[270px] h-[450px] md:w-[400px] md:h-[600px] ' : type == 'default',
-            'left-[calc(50%_-_45vw)] top-[calc(50%_-_225px)] md:left-[calc(50%_-_350px)] md:top-[calc(50%_-_300px)] w-[90vw] h-[450px] md:w-[700px] md:h-[600px] ' : type == 'large',
-            'left-[calc(50%_-_135px)] top-[calc(50%_-_140px)] md:left-[calc(50%_-_250px)] md:top-[calc(50%_-_150px)] w-[270px] h-[280px] md:w-[500px] md:h-[300px] ' : type == 'small'
-        }"
-        class="animate__animated animate__bounceIn fixed rounded-lg bg-white flex flex-col justify-start items-center "
-        :style="{ 'z-index': layer }"
-    >
-        <div
-            v-if="closeStatus"
-            @click.stop="close" 
-            class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center cursor-pointer">
-            <el-icon size="30"><Close /></el-icon>
+    <div
+        @click.self="close"
+        class="absolute left-0 top-0 w-full h-full flex flex-col justify-center items-center" 
+        :style="{ 'z-index': layer }">
+        <div 
+            :class="{ 
+                'w-[270px] h-[450px] md:w-[400px] md:h-[600px] ' : type == 'default',
+                'w-[90vw] h-[450px] md:w-[700px] md:h-[600px] ' : type == 'large',
+                'w-[270px] h-[280px] md:w-[500px] md:h-[300px] ' : type == 'small',
+                'w-[90vw] md:w-[700px] h-auto max-h-[70vh]' : type == 'auto'
+            }"
+            class="animate__animated animate__bounceIn rounded-lg bg-white flex flex-col justify-center items-center "
+        >
+            <div
+                v-if="closeStatus"
+                @click="close" 
+                class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center cursor-pointer">
+                <el-icon size="30"><Close /></el-icon>
+            </div>
+            <slot name="title"></slot>
+            <slot name="message"></slot>
+            <slot name="control"></slot>
         </div>
-        <slot name="title"></slot>
-        <slot name="message"></slot>
-        <slot name="control"></slot>
     </div>
-    
 </template>
 
 <script setup>
