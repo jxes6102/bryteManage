@@ -1,12 +1,96 @@
 <template>
-    <div v-if="!isMobile" class="absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center z-[9999]">
+    <div v-if="!isMobile" class="absolute w-auto h-auto top-0 left-0 flex flex-col justify-center items-center z-[9998]">
         <div
             @click="tohome"
             class="absolute w-auto h-auto top-0 right-0 p-2 flex flex-wrap justify-center items-center cursor-pointer z-[20]">
             <el-icon size="50"><Close /></el-icon>
         </div>
-        <div class="w-full h-[100vh] flex flex-wrap justify-center items-center overflow-hidden">
+        <div
+            @click="setVolume"
+            class="absolute w-auto h-auto top-0 right-[50px] p-2 flex flex-wrap justify-center items-center cursor-pointer z-[20]">
+            <el-icon v-if="volume" size="50"><Microphone /></el-icon>
+            <el-icon v-else size="50"><Mute /></el-icon>
+        </div>
+        <div class="w-[100vw] h-[100vh] bg-[#F0F8FF] flex flex-wrap justify-center items-center overflow-hidden">
             <div 
+                class="w-[50%] h-[100vh] bg-[#F0F8FF] border-r-2 border-[#B0BEC5] flex flex-col justify-start items-center">
+                <transition
+                        enter-active-class="animate__animated animate__fadeIn"
+                        leave-active-class="animate__animated animate__fadeOut"
+                    >
+                    <div class="relative w-full h-[80px] rounded-lg bg-slate-50 my-1 flex flex-wrap justify-center items-center">
+                        <div class="absolute top-0 left-[5px] w-[5vw] h-[5vw] max-w-[80px] max-h-[80px] rounded-full ">
+                            <img src="@/assets/img/monkey.png" alt="">
+                        </div>
+                        <div class="w-full text-4xl font-bold flex flex-wrap justify-center items-center">等待區</div>
+                    </div>
+                </transition>
+                <div class="w-full flex flex-wrap justify-center items-center">
+                    <transition-group 
+                        name="fade"
+                        enter-active-class="animate__animated animate__fadeIn"
+                        leave-active-class="animate__animated animate__fadeOut"
+                    >
+                        <div
+                            v-for="(item,index) in callShow.wait" :key="index"
+                            :class="(false) ? 'w-[95%]' : 'w-[48%] mx-[2px]'"
+                            class=" h-[auto] rounded-lg bg-slate-50 mt-1 text-lg shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] flex flex-wrap justify-center items-center">
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto font-semibold px-1">{{item.studentNumber + '號'}}</div>
+                                <div class="w-auto font-semibold px-1">{{item.studentUserName}}</div>
+                            </div>
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto text-center font-semibold px-1">{{'稱謂:'+item.parentTitle}}</div>
+                                <div class="w-auto text-center font-semibold px-1">{{'家長:'+item.parentUserName}}</div>
+                            </div>
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto text-center font-semibold">抵達情況:</div>
+                                <div class="w-auto text-center font-semibold">{{ item.message}}</div>
+                            </div>
+                        </div>
+                    </transition-group>
+                </div>
+            </div>
+            <div 
+                class="w-[50%] h-[100vh] bg-[#F0F8FF] border-l-2 border-[#B0BEC5] flex flex-col justify-start items-center">
+                <transition
+                        enter-active-class="animate__animated animate__fadeIn"
+                        leave-active-class="animate__animated animate__fadeOut"
+                    >
+                    <div class="relative w-full h-[80px] rounded-lg bg-slate-50 my-1 flex flex-wrap justify-center items-center">
+                        <div class="absolute top-0 left-[5px] w-[5vw] h-[5vw] max-w-[80px] max-h-[80px] rounded-full ">
+                            <img src="@/assets/img/ox.png" alt="">
+                        </div>
+                        <div class="w-full text-4xl font-bold flex flex-wrap justify-center items-center">抵達區</div>
+                    </div>
+                </transition>
+                <div class="w-full flex flex-wrap justify-center items-center">
+                    <transition-group 
+                        name="fade"
+                        enter-active-class="animate__animated animate__fadeIn"
+                        leave-active-class="animate__animated animate__fadeOut"
+                    >
+                        <div
+                            v-for="(item,index) in callShow.arrive" :key="index"
+                            :class="(false) ? 'w-[95%]' : 'w-[48%] mx-[2px]'"
+                            class=" h-[auto] rounded-lg bg-slate-50 mt-1 text-lg shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] flex flex-wrap justify-center items-center">
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto font-semibold px-1">{{item.studentNumber + '號'}}</div>
+                                <div class="w-auto font-semibold px-1">{{item.studentUserName}}</div>
+                            </div>
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto text-center font-semibold px-1">{{'稱謂:'+item.parentTitle}}</div>
+                                <div class="w-auto text-center font-semibold px-1">{{'家長:'+item.parentUserName}}</div>
+                            </div>
+                            <div class="w-full flex flex-wrap justify-center items-center">
+                                <div class="w-auto text-center font-semibold">抵達情況:</div>
+                                <div class="w-auto text-center font-semibold">{{ item.message}}</div>
+                            </div>
+                        </div>
+                    </transition-group>
+                </div>
+            </div>
+            <!-- <div 
                 v-for="(item,index) in 4" :key="index"
                 class="w-[25%] h-[100vh] bg-[#F0F8FF] border-2 border-[#F2FFFF] flex flex-col justify-start items-center">
                 <transition
@@ -49,8 +133,23 @@
                         </div>
                     </transition-group>
                 </div>
-            </div>
+            </div> -->
         </div>
+        <!-- <Teleport to="body">
+            <dialogView layer="9999" type="small" v-if="true">
+                <template v-slot:title>
+                    <div class="w-full my-[1px] md:my-1 px-2 py-[1px] md:py-1 text-2xl">選單</div>
+                    <div class="line-style w-[100%] text-[#D3D3D3] flex"></div>
+                </template>
+                <template v-slot:message>
+                    <div class="w-full h-[200px] p-4 flex flex-col justify-between items-center gap-y-[20px]">
+                        <div class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯基本資料</div>
+                        <div class="w-[95%] md:w-[90%] text-2xl p-2 border-[1px] border-black rounded-lg flex flex-wrap justify-center items-center">編輯橫幅</div>
+                        <div class="w-[95%] md:w-[90%] text-2xl text-gray-400 p-2 border-[1px] border-gray-400 rounded-lg flex flex-wrap justify-center items-center">編輯簡介(製作中)</div>
+                    </div>
+                </template>
+            </dialogView>
+        </Teleport> -->
     </div>
     <div class="absolute w-[100vw] h-[100vh] top-0 left-0 bg-white flex flex-col justify-center items-center z-[9999]" v-else>
         <div class="text-2xl">此畫面無法用手機開啟</div>
@@ -60,11 +159,16 @@
             <el-icon size="50"><Close /></el-icon>
         </div>
     </div>
+    
+    
+    
 </template>
 
 <script setup>
+import { getCall } from '@/api/api'
 import { ref,computed,onBeforeUnmount,onMounted } from 'vue'
 import { useRouter } from "vue-router";
+// import dialogView from "@/components/dialogView.vue"
 import { useMenuStore,useMobileStore,useheaderStore,useAnnounceStore } from '@/stores/index'
 import 'animate.css'
 
@@ -74,24 +178,412 @@ const mobileStore = useMobileStore()
 const headerStore = useheaderStore()
 const announceStore = useAnnounceStore()
 
+// {
+//     "data": 
+//     [
+//         {
+//             // 班級名稱
+//             "className": string,
+//             // 班級代碼
+//             "classCode": string,
+//             // 老師姓名
+//             "teacherUserName": string,
+//             // 班級接送資訊
+//             "pickupList": 
+//             [
+//                 {
+//                     // id
+//                     "id": string,
+//                     // 班級名稱
+//                     "className": string,
+//                     // 班級代碼
+//                     "classCode": string,
+//                     // 老師姓名
+//                     "teacherUserName": string,
+//                     // 學生姓名
+//                     "studentUserName": string,
+//                     // 學生號碼
+//                     "studentNumber": number,
+//                     // 接送日期
+//                     "scheduleDate": Date,
+//                     // 家長姓名
+//                     "parentUserName": string,
+//                     // 家長稱謂
+//                     "parentTitle": string,
+//                     // 預計接送時間(分鐘)
+//                     "pickupTime": number,
+//                     // 接送狀態：
+//                     // 1. 在校
+//                     // 2. 等待接送但家長尚未選擇接送時間
+//                     // 3. 等待接送
+//                     // 4. 等待接送且家長已抵達
+//                     // 5. 已接送完成
+//                     "state": number
+//                 }
+//             ]
+//         }
+//     ],
+//     // 狀態：true成功、false失敗
+//     "status": boolean,
+//     // 訊息
+//     "message": string
+// }
+
+// 接送狀態：
+// 1. 在校
+// 2. 等待接送但家長尚未選擇接送時間
+// 3. 等待接送
+// 4. 等待接送且家長已抵達
+// 5. 已接送完成
+const testData = [
+    {
+        "className": '猴子班',
+        "classCode": 123,
+        "teacherUserName": "侯O長",
+        "pickupList": 
+        [
+            {
+                "id": 1,
+                "className": '猴子班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '猴子一',
+                "studentNumber": 1,
+                "scheduleDate": '',
+                "parentUserName": "公猴一",
+                "parentTitle": "爸爸",
+                "pickupTime": '4',
+                "state": 2
+            },
+            {
+                "id": 2,
+                "className": '猴子班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '猴子二',
+                "studentNumber": 2,
+                "scheduleDate": '',
+                "parentUserName": "母猴二",
+                "parentTitle": "媽媽",
+                "pickupTime": '7',
+                "state": 4
+            },
+            {
+                "id": 3,
+                "className": '猴子班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '猴子三',
+                "studentNumber": 3,
+                "scheduleDate": '',
+                "parentUserName": "公猴三",
+                "parentTitle": "爸爸",
+                "pickupTime": '9',
+                "state": 3
+            },
+            {
+                "id": 4,
+                "className": '猴子班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '母猴四',
+                "studentNumber": 4,
+                "scheduleDate": '',
+                "parentUserName": "母猴四",
+                "parentTitle": "媽媽",
+                "pickupTime": '1',
+                "state": 2
+            },
+        ]
+    },
+    {
+        "className": '老鼠班',
+        "classCode": 123,
+        "teacherUserName": "王O殊",
+        "pickupList": [
+            {
+                "id": 1,
+                "className": '老鼠班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '老鼠一',
+                "studentNumber": 1,
+                "scheduleDate": '',
+                "parentUserName": "公鼠一",
+                "parentTitle": "爸爸",
+                "pickupTime": '3',
+                "state": 3
+            },
+            {
+                "id": 2,
+                "className": '老鼠班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '老鼠二',
+                "studentNumber": 2,
+                "scheduleDate": '',
+                "parentUserName": "母鼠二",
+                "parentTitle": "媽媽",
+                "pickupTime": '3',
+                "state": 4
+            },
+            {
+                "id": 3,
+                "className": '老鼠班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '老鼠三',
+                "studentNumber": 3,
+                "scheduleDate": '',
+                "parentUserName": "公鼠三",
+                "parentTitle": "爸爸",
+                "pickupTime": '7',
+                "state": 3
+            },
+            {
+                "id": 4,
+                "className": '老鼠班',
+                "classCode": 123,
+                "teacherUserName": '侯O長',
+                "studentUserName": '老鼠四',
+                "studentNumber": 4,
+                "scheduleDate": '',
+                "parentUserName": "母鼠四",
+                "parentTitle": "媽媽",
+                "pickupTime": '4',
+                "state": 4
+            },
+        ]
+    },
+    {
+        "className": '黃牛班',
+        "classCode": 123,
+        "teacherUserName": "牛O古",
+        "pickupList": [
+            {
+                "id": 1,
+                "className": '黃牛班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '黃牛一',
+                "studentNumber": 1,
+                "scheduleDate": '',
+                "parentUserName": "公牛一",
+                "parentTitle": "爸爸",
+                "pickupTime": '9',
+                "state": 2
+            },
+            {
+                "id": 2,
+                "className": '黃牛班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '黃牛二',
+                "studentNumber": 2,
+                "scheduleDate": '',
+                "parentUserName": "母牛二",
+                "parentTitle": "媽媽",
+                "pickupTime": '7',
+                "state": 3
+            },
+            {
+                "id": 3,
+                "className": '黃牛班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '黃牛三',
+                "studentNumber": 3,
+                "scheduleDate": '',
+                "parentUserName": "公牛三",
+                "parentTitle": "爸爸",
+                "pickupTime": '4',
+                "state": 4
+            },
+            {
+                "id": 4,
+                "className": '黃牛班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '黃牛四',
+                "studentNumber": 4,
+                "scheduleDate": '',
+                "parentUserName": "母牛四",
+                "parentTitle": "媽媽",
+                "pickupTime": '2',
+                "state": 4
+            },
+        ]
+        
+    },
+    {
+        "className": '老虎班',
+        "classCode": 123,
+        "teacherUserName": "牛O古",
+        "pickupList": [
+            {
+                "id": 1,
+                "className": '老虎班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '老虎一',
+                "studentNumber": 1,
+                "scheduleDate": '',
+                "parentUserName": "公虎一",
+                "parentTitle": "爸爸",
+                "pickupTime": '6',
+                "state": 2
+            },
+            {
+                "id": 2,
+                "className": '老虎班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '老虎二',
+                "studentNumber": 2,
+                "scheduleDate": '',
+                "parentUserName": "母虎二",
+                "parentTitle": "媽媽",
+                "pickupTime": '3',
+                "state": 2
+            },
+            {
+                "id": 3,
+                "className": '老虎班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '老虎三',
+                "studentNumber": 3,
+                "scheduleDate": '',
+                "parentUserName": "公虎三",
+                "parentTitle": "爸爸",
+                "pickupTime": '9',
+                "state": 3
+            },
+            {
+                "id": 4,
+                "className": '老虎班',
+                "classCode": 123,
+                "teacherUserName": '牛O古',
+                "studentUserName": '老虎四',
+                "studentNumber": 4,
+                "scheduleDate": '',
+                "parentUserName": "母虎四",
+                "parentTitle": "媽媽",
+                "pickupTime": '1',
+                "state": 4
+            },
+        ]
+        
+    }
+]
+
+const volume = ref(0)
+const setVolume = () => {
+    if(volume.value){
+        volume.value = 0
+    }else{
+        volume.value = 1
+    }
+}
+let musicList = ["測試一號","測試二號","測試三號","測試四號"]
+const playMusic = (text) => {
+    if(typeof speechSynthesis){
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.volume = volume.value
+        window.speechSynthesis.speak(msg);
+    }
+}
+playMusic("可樂狗")
+let musicTimer = null
+const createMusicTimer = () =>  {
+    musicTimer = setInterval(() => {
+        
+        console.log('test',musicList[0]);
+        if(musicList.length){
+            
+            playMusic(musicList[0])
+            musicList.shift()
+        }
+        
+    }, 3000);
+}
+
+setTimeout(() => {
+    musicList.push("測試五號","測試六號","測試七號","測試八號")
+}, 30000);
+
+setTimeout(() => {
+    musicList.push("測試九號","測試十號")
+}, 60000);
+
+const callData = ref([])
+const callShow = computed(() => {
+    let target = {
+        wait:[],
+        arrive:[]
+    }
+    if(!callData.value.length){
+        return target
+    }
+    
+    for(let i = 0;i<callData.value.length;i++){
+        let classArr = callData.value[i].pickupList
+        for(let j = 0;j<classArr.length;j++){
+            let obj = Object.assign({}, classArr[j], {message:''})
+            if(obj.state == 2){
+                obj.message = '等待中'
+                target.wait.push(obj)
+            }else if(obj.state == 3){
+                obj.message = '剩餘'+obj.pickupTime+'分'
+                target.wait.push(obj)
+            }else if(obj.state == 4){
+                obj.message = '已抵達'
+                target.arrive.push(obj)
+            }
+        }
+    }
+    target.wait = target.wait.slice(0,maxCount.value*2)
+    target.arrive = target.arrive.slice(0,maxCount.value*2)
+    return target
+})
+const getCallData = async() => {
+    // console.log('call api')
+    await getCall().then((res) => {
+        // console.log('res',res.data)
+        if(res.data.status){
+            // callData.value = res.data
+            callData.value = testData
+            // console.log('callData',callData.value)
+            // console.log('callShow',callShow.value)
+        }else{
+            console.log(res.data.message)
+        }
+    })
+}
+let callTimer = null
+const createCallTimer = () =>  {
+    callTimer = setInterval(() => {
+        
+        getCallData()
+    }, 5000);
+}
+
 onMounted(() => {
     headerStore.closeHeader()
     menuStore.closeMenu()
 
-    // setTimeout(() => {
-    //     list.value[1].crowd.push({
-    //         number:8,
-    //         name:'老鼠十號',
-    //         time:'14',
-    //         isArrive:false,
-    //     })
-    // }, 2000);
+    getCallData()
+    createMusicTimer()
+    createCallTimer()
 })
 
 onBeforeUnmount(() => {
     headerStore.openHeader()
     menuStore.openMenu()
     window.clearInterval(timer.value)
+    window.clearInterval(musicTimer)
+    window.clearInterval(callTimer)
+    
 })
 
 const list = ref([
@@ -667,8 +1159,8 @@ const isMobile = computed(() => {
 const init = () => {
     headerStore.closeHeader()
     menuStore.closeMenu()
-    maxCount.value = Math.floor((window.innerHeight - 70)/90) 
-    //console.log(maxCount.value)
+    maxCount.value = Math.floor((window.innerHeight - 80)/90) 
+    // console.log(maxCount.value)
 
     timer.value = window.setInterval(( () => {
         let max = Math.floor(list.value.length/4)
@@ -700,6 +1192,7 @@ const tohome = () => {
 const getImageUrl = (path) => {
     return new URL(`../assets/${path}`, import.meta.url).href;
 };
+
 </script>
 
 <style lang="scss" scoped>
