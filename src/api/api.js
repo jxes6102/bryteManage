@@ -9,6 +9,23 @@ export const getCall = () => {
   })
 }
 
+export const initTodayRollCall = () => {
+  const url = '/Init/InitTodayRollCall'
+  const method = 'post'
+  return request({
+    method,
+    url,
+  })
+}
+
+export const initTodayPickup = () => {
+  const url = '/Init/InitTodayPickup'
+  const method = 'post'
+  return request({
+    method,
+    url,
+  })
+}
 
 // export const getLineInformation = () => {
 //   const url = '/Auth/LineLogin'

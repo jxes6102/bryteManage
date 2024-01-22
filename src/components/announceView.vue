@@ -165,7 +165,7 @@
 </template>
 
 <script setup>
-import { getCall } from '@/api/api'
+import { getCall,initTodayRollCall,initTodayPickup } from '@/api/api'
 import { ref,computed,onBeforeUnmount,onMounted } from 'vue'
 import { useRouter } from "vue-router";
 // import dialogView from "@/components/dialogView.vue"
@@ -551,8 +551,8 @@ const getCallData = async() => {
     await getCall().then((res) => {
         // console.log('res',res.data)
         if(res.data.status){
-            // callData.value = res.data
-            callData.value = testData
+            callData.value = res.data.data
+            // callData.value = testData
             // console.log('callData',callData.value)
             // console.log('callShow',callShow.value)
         }else{
@@ -568,10 +568,30 @@ const createCallTimer = () =>  {
     }, 5000);
 }
 
+// initTodayRollCall initTodayPickup
+const initCallData = async() => {
+    let date = new Date()
+    let oldDate = localStorage.getItem('date')
+
+    if(oldDate){
+        localStorage.setItem('date',date.getDate())
+    }
+    oldDate = localStorage.getItem('date')
+    if(!(oldDate == date.getDate().toString())){
+        await initTodayRollCall().then((res) => {
+            // console.log('res',res)
+        })
+        await initTodayPickup().then((res) => {
+            // console.log('res',res)
+        })
+        localStorage.setItem('date',date.getDate())
+    }    
+}
+
 onMounted(() => {
     headerStore.closeHeader()
     menuStore.closeMenu()
-
+    initCallData()
     getCallData()
     createMusicTimer()
     createCallTimer()
