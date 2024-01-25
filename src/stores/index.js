@@ -14,7 +14,7 @@ export const useMobileStore = defineStore('mobile', () => {
 })
 
 export const useMenuStore = defineStore('menu', () => {
-    const status = ref(true)
+    const status = ref(false)
     const setMenu = () => {
         status.value = !status.value 
     }
@@ -28,7 +28,7 @@ export const useMenuStore = defineStore('menu', () => {
 })
 
 export const useheaderStore = defineStore('header', () => {
-    const status = ref(true)
+    const status = ref(false)
     const setHeader = () => {
         status.value = !status.value 
     }
@@ -56,4 +56,28 @@ export const useAnnounceStore = defineStore('announce', () => {
         localStorage.setItem('announce',true)
     }
     return { status,setAnnounce,closeAnnounce,openAnnounce }
+})
+
+export const useLoginStore = defineStore('login', () => {
+    const status = ref(false)
+    const isLogin = () => {
+        status.value = true
+    }
+    const setToken = (value) => {
+        status.value = true
+        localStorage.setItem("token", value)
+    }
+    const clearToken = () => {
+        status.value = false
+        localStorage.removeItem("token")
+    }
+    return { status,setToken,clearToken,isLogin }
+})
+
+export const useUserStore = defineStore('user', () => {
+    const information = ref({})
+    const setUserInformation = (value) => {
+        information.value = value
+    }
+    return { information,setUserInformation }
 })

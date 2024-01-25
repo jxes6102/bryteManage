@@ -32,12 +32,15 @@ import { onMounted,computed,watch } from 'vue'
 import headerView from './components/headerView.vue'
 import menuView from './components/menuView.vue'
 import announceView from './components/announceView.vue'
-import { useMobileStore,useMenuStore,useheaderStore,useAnnounceStore } from './stores/index'
+import { useMobileStore,useMenuStore,useheaderStore,useAnnounceStore,useLoginStore } from './stores/index'
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 const mobileStore = useMobileStore()
 const menuStore = useMenuStore()
 const headerStore = useheaderStore()
 const announceStore = useAnnounceStore()
+const loginStore = useLoginStore()
 
 const announceStatus = computed(() => {
   return announceStore.status
@@ -55,15 +58,26 @@ const setWidth = () => {
   mobileStore.setMobile(window.innerWidth)
 }
 
+const init = () => {
+  if(!localStorage.getItem('token')){
+    router.push({ path: '/loginView' })
+  }else{
+    loginStore.isLogin()
+    router.push({ path: '/' })
+  }
+}
+init()
+
 onMounted(() => {
   setWidth()
-  if(window.innerWidth>768){
-    if(!announceStatus.value){
+
+  if(loginStore.status){
+    headerStore.openHeader()
+    if(!isMobile.value){
       menuStore.openMenu()
     }
-  }else{
-    menuStore.closeMenu()
   }
+
   window.addEventListener('resize', () => {
     setWidth()
   }, false);

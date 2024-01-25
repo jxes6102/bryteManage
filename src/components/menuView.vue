@@ -24,9 +24,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
-import { useMenuStore,useMobileStore,useAnnounceStore } from '@/stores/index'
+import { useMenuStore,useMobileStore,useAnnounceStore,useLoginStore } from '@/stores/index'
 import 'animate.css'
 
+const loginStore = useLoginStore()
 const router = useRouter()
 const menuStore = useMenuStore()
 const mobileStore = useMobileStore()
@@ -79,11 +80,18 @@ const urlData = ref([
     },
     {
         name:'豋出',
+        url:'/loginView'
     },
 ]) 
 
 const toLink = (url) => {
     if(url){
+        if(url=='/loginView'){
+            loginStore.clearToken()
+            router.push({path:'/loginView'})
+            return false
+        }
+
         if(url == '/announcementView'){
             announceStore.openAnnounce()
             return false

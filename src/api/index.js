@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { useLoginStore } from '@/stores/index'
 export const TIMEOUT = 10000
 
 // const DEFAULT_CACHE_EXPIRY_TIME = 3000
@@ -15,13 +15,11 @@ const instance = axios.create(CONFIG)
 
 instance.interceptors.request.use(
   config => {
-    // before request is sent
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   config.headers = { Authorization: `Bearer ${localStorage.getItem("token")}` }
-    // }
-
-    // console.log('interceptors.request config',config)
+    config.headers['ngrok-skip-browser-warning'] = 69420
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}` 
+    }
     return config
   },
   error => {
@@ -38,7 +36,13 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
-    // console.log('interceptors.response error',error)
+    if(error.response.status == 401){
+      // console.log('未允許拿取')
+      const loginStore = useLoginStore()
+      loginStore.clearToken()
+      let returnUrl = '#/loginView'
+      window.location.replace((window.location.origin + window.location.pathname+returnUrl))
+    }
     return Promise.reject(error);
   }
 );

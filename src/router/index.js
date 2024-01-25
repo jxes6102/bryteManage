@@ -6,7 +6,10 @@ import newsView from '../views/news/index.vue'
 import pointView from '../views/point/index.vue'
 import notificationView from '../views/notification/index.vue'
 import organizeView from '../views/organize/index.vue'
+import loginView from '../views/login/index.vue'
 import errorView from '../views/errorView.vue'
+import { useLoginStore,useUserStore } from '@/stores/index'
+import { checkToken } from '@/api/api'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -52,6 +55,11 @@ const router = createRouter({
       component: organizeView 
     },
     { 
+      path: '/loginView',
+      name: 'loginView',
+      component: loginView 
+    },
+    { 
       path: '/:pathMatch(.*)*',
       component: errorView 
     },
@@ -66,4 +74,30 @@ const router = createRouter({
   ]
 })
 
+//可在未登入時進入
+const allow = ['loginView']
+
+router.beforeEach((to, from) => {
+  // console.log('to',to.name)
+  const loginStore = useLoginStore()
+  const userStore = useUserStore()
+  if(!(allow.includes(to.name) || loginStore?.status)){
+    return '/loginView'
+  }
+  if(loginStore?.status){
+    checkToken().then((res) => {
+      // console.log('checkToken api',res)
+      if(res.data.status){
+        // console.log('checkToken yes')
+        userStore.setUserInformation(res.data.data)
+      }else{
+        loginStore.clearToken()
+        // console.log('checkToken no')
+        return '/loginView'
+      }
+    })
+  }
+  // explicitly return false to cancel the navigation
+  // return false
+})
 export default router
