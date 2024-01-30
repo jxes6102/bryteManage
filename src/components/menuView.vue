@@ -24,7 +24,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
-import { useMenuStore,useMobileStore,useAnnounceStore,useLoginStore } from '@/stores/index'
+import { useMenuStore,useMobileStore,useAnnounceStore,useLoginStore,useUserStore } from '@/stores/index'
+import { testLogout } from '@/api/api'
 import 'animate.css'
 
 const loginStore = useLoginStore()
@@ -32,6 +33,7 @@ const router = useRouter()
 const menuStore = useMenuStore()
 const mobileStore = useMobileStore()
 const announceStore = useAnnounceStore()
+const userStore = useUserStore()
 
 const urlData = ref([
     {
@@ -84,11 +86,14 @@ const urlData = ref([
     },
 ]) 
 
-const toLink = (url) => {
+const toLink = async(url) => {
     if(url){
         if(url=='/loginView'){
-            loginStore.clearToken()
-            router.push({path:'/loginView'})
+            await testLogout().then((res) => {
+                loginStore.clearToken()
+                userStore.clearUserInformation()
+                router.push({path:'/loginView'})
+            })
             return false
         }
 
