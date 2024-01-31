@@ -76,10 +76,10 @@ const urlData = ref([
             },
         ]
     },
-    {
-        name:'接送畫面',
-        url:'/announcementView'
-    },
+    // {
+    //     name:'接送畫面',
+    //     url:'/announcementView'
+    // },
     {
         name:'豋出',
         url:'/loginView'

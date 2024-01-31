@@ -16,12 +16,12 @@
       :class="(!isMobile && menuStatus) ? 'ml-[200px] w-[calc(100%_-_200px)]' : 'w-[100%]'"
       class="transition-all duration-1000" />
 
-    <transition 
+    <!-- <transition 
       enter-active-class="animate__animated animate__fadeIn"
       leave-active-class="animate__animated animate__fadeOut"
       >
       <announceView v-if="announceStatus"></announceView>
-    </transition>
+    </transition> -->
   </div>
 </template>
 
