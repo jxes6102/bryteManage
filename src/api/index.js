@@ -16,9 +16,9 @@ const instance = axios.create(CONFIG)
 instance.interceptors.request.use(
   config => {
     config.headers['ngrok-skip-browser-warning'] = 69420
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('bryteManageToken');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}` 
+      config.headers['Authorization'] = `Bearer ${token}` 
     }
     return config
   },
