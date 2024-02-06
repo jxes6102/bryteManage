@@ -93,6 +93,11 @@ const toLink = async(url) => {
                 loginStore.clearToken()
                 userStore.clearUserInformation()
                 router.push({path:'/loginView'})
+            }).catch(() => {
+                // console.log('res',res)
+                loginStore.clearToken()
+                userStore.clearUserInformation()
+                router.push({path:'/loginView'})
             })
             return false
         }
